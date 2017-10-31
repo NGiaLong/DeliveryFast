@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff8706</color>
+    <color name="address">#999999</color>
+    <color name="name">#222222</color>
+    <color name="background">#d7d1d1</color>
+    <color name="backgroundTextView">#ffffff</color>
+    <color name="tvColor">#3283e7</color>
+    <color name="btSave">#93fd3c</color>
+    <color name="btDelete">#ff7373</color>
+    <color name="tvWhite">#FFFFFF</color>
+</resources>

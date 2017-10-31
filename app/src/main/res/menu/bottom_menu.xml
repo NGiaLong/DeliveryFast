@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/home_normal"
+        android:title="Home"
+        app:showAsAction="ifRoom"></item>
+
+    <item
+        android:id="@+id/action_bill"
+        android:enabled="true"
+        android:icon="@drawable/bill_normal"
+        android:title="Bill"
+        app:showAsAction="ifRoom"></item>
+
+    <item
+        android:id="@+id/action_notification"
+        android:enabled="true"
+        android:icon="@drawable/notifi_normal"
+        android:title="Notification"
+        app:showAsAction="ifRoom"></item>
+
+    <item
+        android:id="@+id/action_user"
+        android:enabled="true"
+        android:icon="@drawable/user_normal"
+        android:title="User"
+        app:showAsAction="ifRoom"></item>
+
+</menu>
