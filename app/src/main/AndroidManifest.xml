@@ -31,7 +31,8 @@
         <activity android:name=".ui.home.StoreActivity_" />
         <activity android:name=".ui.account.UserProfileActivity_" />
         <activity android:name=".ui.account.PhoneNumberActivity_" />
-        <activity android:name=".ui.account.PhoneManageActivity_"></activity>
+        <activity android:name=".ui.account.PhoneManageActivity_" />
+        <activity android:name=".ui.account.AddressActivity_"/>
     </application>
 
 </manifest>
