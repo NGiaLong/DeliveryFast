@@ -55,7 +55,9 @@ public class AddressActivity extends AppCompatActivity {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
-                //start address manage activity;
+
+                AddressManageActivity_.intent(getApplicationContext()).id_token(id_token).userAddress(userAddress).start();
+
             }
         });
 
