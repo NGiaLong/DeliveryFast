@@ -25,7 +25,7 @@ import retrofit2.http.Path;
 
 public class ApiClient {
     private static Retrofit retrofit = null;
-    private static String mBaseUrl = "http://ae39b23c.ngrok.io/api/";
+    private static String mBaseUrl = "http://595394d0.ngrok.io/api/";
 
 
     public static Retrofit retrofit () {

@@ -33,7 +33,8 @@
         <activity android:name=".ui.account.PhoneNumberActivity_" />
         <activity android:name=".ui.account.PhoneManageActivity_" />
         <activity android:name=".ui.account.AddressActivity_" />
-        <activity android:name=".ui.account.AddressManageActivity_"></activity>
+        <activity android:name=".ui.account.AddressManageActivity_" />
+        <activity android:name=".ui.account.AddressCreateActivity_"/>
     </application>
 
 </manifest>

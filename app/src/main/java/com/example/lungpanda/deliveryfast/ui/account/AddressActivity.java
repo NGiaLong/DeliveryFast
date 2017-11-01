@@ -44,7 +44,7 @@ public class AddressActivity extends AppCompatActivity {
     private long mLastClickTime = 0;
 
     @AfterViews
-    void init(){
+    void init() {
         SharedPreferences settings = getSharedPreferences(SignInActivity.NAME_SHAREPREFERENCE, 0);
         id_token = settings.getString(SignInActivity.ID_TOKEN, "");
 
@@ -76,14 +76,16 @@ public class AddressActivity extends AppCompatActivity {
         result.enqueue(new Callback<UserAddressResult>() {
             @Override
             public void onResponse(Call<UserAddressResult> call, Response<UserAddressResult> response) {
-                if(response.isSuccessful()) {
-                    if (response.body().getStatus()){
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus()) {
                         List<UserAddress> tmp = response.body().getUserAddressData().getUserAddresses();
-                        userAddresses.clear();
-                        for (UserAddress address : tmp) {
-                            userAddresses.add(address);
+                        if (tmp != null) {
+                            userAddresses.clear();
+                            for (UserAddress address : tmp) {
+                                userAddresses.add(address);
+                            }
+                            addressAdapter.notifyDataSetChanged();
                         }
-                        addressAdapter.notifyDataSetChanged();
                     } else {
                         UserProfileActivity_.intent(getApplicationContext()).start();
                     }
@@ -113,8 +115,8 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     @Click(R.id.tvCreateAddress)
-    void setmTvCreatAddress(){
-        //Change to create address activity;
+    void setmTvCreatAddress() {
+        AddressCreateActivity_.intent(this).start();
     }
 
 

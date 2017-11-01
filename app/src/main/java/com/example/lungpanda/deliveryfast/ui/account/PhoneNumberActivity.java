@@ -163,11 +163,13 @@ public class PhoneNumberActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
                         List<UserPhone> tmp = response.body().getUserPhoneData().getUserPhones();
-                        phoneList.clear();
-                        for (UserPhone phone : tmp) {
-                            phoneList.add(phone);
+                        if(tmp != null){
+                            phoneList.clear();
+                            for (UserPhone phone : tmp) {
+                                phoneList.add(phone);
+                            }
+                            phoneAdapter.notifyDataSetChanged();
                         }
-                        phoneAdapter.notifyDataSetChanged();
                     } else {
                         UserProfileActivity_.intent(getApplicationContext()).start();
                     }

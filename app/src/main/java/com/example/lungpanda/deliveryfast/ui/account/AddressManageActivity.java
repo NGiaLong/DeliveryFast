@@ -14,7 +14,6 @@ public class AddressManageActivity extends AppCompatActivity {
 
     @Extra
     String id_token;
-
     @Extra
     UserAddress userAddress;
 

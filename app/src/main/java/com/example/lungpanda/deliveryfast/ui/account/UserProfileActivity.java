@@ -287,7 +287,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Click(R.id.tvManageAddress)
     void setmTvManageAddress(){
-
+        AddressActivity_.intent(this).start();
     }
 
 
