@@ -7,27 +7,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.lungpanda.deliveryfast.R;
-import com.example.lungpanda.deliveryfast.model.Store;
+import com.example.lungpanda.deliveryfast.model.Store.Store;
+import com.example.lungpanda.deliveryfast.model.Store.StoreType;
 
 import java.util.List;
+
 /**
  * Created by LungPanda on 10/4/2017.
  */
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder> {
     private List<Store> storesList;
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, address, store_type;
-        public MyViewHolder(View view){
+
+        public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.name);
-            address = (TextView) view.findViewById(R.id.address);
-            store_type = (TextView) view.findViewById(R.id.store_type);
+            name = (TextView) view.findViewById(R.id.tvStoreName);
+            address = (TextView) view.findViewById(R.id.tvStoreAddress);
+            store_type = (TextView) view.findViewById(R.id.tvStoreType);
         }
     }
-    public StoreAdapter(List<Store> storesList){
+
+    public StoreAdapter(List<Store> storesList) {
         this.storesList = storesList;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -41,7 +47,17 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
         Store store = storesList.get(position);
         holder.name.setText(store.getName());
         holder.address.setText(store.getAddress());
-        holder.store_type.setText(store.getOpening_time());
+        if (store.getStoreTypes() == null) {
+            holder.store_type.setText("Did not set yet");
+        } else {
+            String tmp = "";
+            for (StoreType storeType : store.getStoreTypes()) {
+                tmp += storeType.getType() + "/";
+            }
+            tmp = tmp.substring(0, tmp.length() - 1);
+            holder.store_type.setText(tmp);
+        }
+
     }
 
     @Override

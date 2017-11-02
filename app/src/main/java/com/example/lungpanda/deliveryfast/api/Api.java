@@ -7,6 +7,7 @@ import com.example.lungpanda.deliveryfast.model.SignIn.SignIn;
 import com.example.lungpanda.deliveryfast.model.SignIn.SignInResult;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUp;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUpResult;
+import com.example.lungpanda.deliveryfast.model.Store.StoreResult;
 import com.example.lungpanda.deliveryfast.model.UpdateResult;
 import com.example.lungpanda.deliveryfast.model.User.User;
 import com.example.lungpanda.deliveryfast.model.User.UserAddress;
@@ -71,6 +72,9 @@ public interface Api {
     Call<UserAddressResult> deleteAddress(@Path("addressId") String addressId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token );
 
     //STORE
+
+    @GET("stores")
+    Call<StoreResult> getStores (@Header("Content-Type") String content_type);
 
 
 

@@ -187,6 +187,8 @@ public class PhoneManageActivity extends AppCompatActivity {
 
             // Showing Alert Message
             alertDialog.show();
+
+            mSIsPrimary.setChecked(false);
         } else {
             mSIsPrimary.setChecked(true);
         }

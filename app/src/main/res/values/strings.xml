@@ -5,6 +5,7 @@
 
     <!-- Strings related to account -->
     <string name="prompt_email">Email</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCpfgVOi6bpDkYheeF1TG9j1n81mbOqDWE</string>
     <string name="reminder">Enter Your Name</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>

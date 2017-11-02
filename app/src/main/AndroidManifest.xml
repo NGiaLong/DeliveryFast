@@ -18,6 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <!--
+             The API key for Google Maps-based APIs.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
         <activity android:name=".ui.home.HomeActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +36,6 @@
         <activity android:name=".MainActivity_" />
         <activity android:name=".ui.account.SignUpActivity_" />
         <activity android:name=".ui.account.SignInActivity_" />
-        <activity android:name=".ui.home.StoreActivity_" />
         <activity android:name=".ui.account.UserProfileActivity_" />
         <activity android:name=".ui.account.PhoneNumberActivity_" />
         <activity android:name=".ui.account.PhoneManageActivity_" />

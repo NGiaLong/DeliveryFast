@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +34,7 @@ import java.lang.reflect.Field;
 
 
 @EActivity(R.layout.activity_home)
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends FragmentActivity {
 
     @ViewById(R.id.bottom_navigation)
     BottomNavigationView bottomNavigation;
@@ -46,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.inflateMenu(R.menu.bottom_menu);
         fragmentManager = getSupportFragmentManager();
-        replaceFragment(AccountActivity_.builder().build());
+        replaceFragment(StoreActivity_.builder().build());
         disableShiftMode(bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.action_home:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = StoreActivity_.builder().build();
                         break;
                     case R.id.action_bill:
                         fragment = AccountActivity_.builder().build();

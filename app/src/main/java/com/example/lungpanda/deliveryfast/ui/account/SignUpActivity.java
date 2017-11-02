@@ -99,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         User user = response.body().getData().getUser();
                                         String id_token = response.body().getData().getId_token();
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                        StoreActivity_.intent(getApplicationContext()).username(user.getUsername()).start();
+
                                     } else {
                                         String message = response.body().getMessage().toString();
                                         Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
