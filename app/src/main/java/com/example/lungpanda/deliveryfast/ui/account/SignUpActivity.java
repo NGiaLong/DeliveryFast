@@ -1,5 +1,6 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -53,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Click(R.id.tvSignIn)
     void setmTvSignIn() {
-        SignInActivity_.intent(this).start();
+        SignInActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
 
@@ -130,9 +131,5 @@ public class SignUpActivity extends AppCompatActivity {
             mTvPassword.setError("Password must be at least 8 characters");
             mTvPassword.requestFocus();
         }
-    }
-    @Override
-    public void onBackPressed() {
-        SignInActivity_.intent(this).start();
     }
 }

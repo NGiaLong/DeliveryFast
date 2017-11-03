@@ -24,11 +24,13 @@ public class Store {
     @SerializedName("closing_time")
     private String closing_time;
     @SerializedName("latitude")
-    private long latitude;
+    private float latitude;
     @SerializedName("longitude")
-    private long longitude;
+    private float longitude;
     @SerializedName("status")
     private boolean status;
+    @SerializedName("image_url")
+    private String image_url;
     @SerializedName("storeTypes")
     private List<StoreType> storeTypes;
 }

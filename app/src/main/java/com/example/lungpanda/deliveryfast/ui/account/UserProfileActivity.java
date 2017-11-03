@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -160,14 +161,10 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        HomeActivity_.intent(this).start();
-    }
 
     @Click(R.id.imgBack)
     public void setmImgBack() {
-        HomeActivity_.intent(this).start();
+        onBackPressed();
     }
 
     @Click(R.id.tvSave)
@@ -282,12 +279,12 @@ public class UserProfileActivity extends AppCompatActivity {
     }
     @Click(R.id.tvManagePhone)
     void setmTbrMainPhone(){
-        PhoneNumberActivity_.intent(this).start();
+        PhoneNumberActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
     @Click(R.id.tvManageAddress)
     void setmTvManageAddress(){
-        AddressActivity_.intent(this).start();
+        AddressActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
 

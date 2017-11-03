@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -57,15 +58,7 @@ public class PhoneManageActivity extends AppCompatActivity {
 
     @Click(R.id.imgBack)
     void setmImgBack() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
-            return;
-        }
-        mLastClickTime = SystemClock.elapsedRealtime();
-        PhoneNumberActivity_.intent(this).start();
-    }
-    @Override
-    public void onBackPressed() {
-        PhoneNumberActivity_.intent(this).start();
+        onBackPressed();
     }
 
     @Click(R.id.btnDeletePhone)
@@ -96,20 +89,20 @@ public class PhoneManageActivity extends AppCompatActivity {
                             public void onResponse(retrofit2.Call<UserPhoneResult> call, Response<UserPhoneResult> response) {
                                 if (response.isSuccessful()){
                                     if (response.body().getStatus()){
-                                        PhoneNumberActivity_.intent(getApplicationContext()).start();
+                                        PhoneNumberActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    PhoneNumberActivity_.intent(getApplicationContext()).start();
+                                    PhoneNumberActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                     Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(retrofit2.Call<UserPhoneResult> call, Throwable t) {
-                                HomeActivity_.intent(getApplicationContext()).start();
+                                HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                 Toast.makeText(getApplication(), "Server is not working!", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -155,20 +148,20 @@ public class PhoneManageActivity extends AppCompatActivity {
                                 public void onResponse(retrofit2.Call<UserPhoneResult> call, Response<UserPhoneResult> response) {
                                     if (response.isSuccessful()) {
                                         if (response.body().getStatus()) {
-                                            PhoneNumberActivity_.intent(getApplicationContext()).start();
+                                            PhoneNumberActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                             Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        PhoneNumberActivity_.intent(getApplicationContext()).start();
+                                        PhoneNumberActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(retrofit2.Call<UserPhoneResult> call, Throwable t) {
-                                    HomeActivity_.intent(getApplicationContext()).start();
+                                    HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                     Toast.makeText(getApplication(), "Server is not working!", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -179,7 +172,7 @@ public class PhoneManageActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
-                            PhoneNumberActivity_.intent(getApplicationContext()).start();
+                            PhoneNumberActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                         }
                     });
 

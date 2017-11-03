@@ -2,6 +2,7 @@ package com.example.lungpanda.deliveryfast.ui.account;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @Click(R.id.tvSignUp)
     void signUp() {
-        SignUpActivity_.intent(this).start();
+        SignUpActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
     @Click(R.id.btnSignIn)
@@ -123,9 +124,4 @@ public class SignInActivity extends AppCompatActivity {
 
         }
     }
-    @Override
-    public void onBackPressed() {
-        HomeActivity_.intent(this).start();
-    }
-
 }

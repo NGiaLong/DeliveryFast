@@ -104,15 +104,9 @@ public class AddressActivity extends AppCompatActivity {
 
     @Click(R.id.imgBack)
     void setmImBack() {
-        UserProfileActivity_.intent(this).start();
-        finish();
+        onBackPressed();
     }
 
-    @Override
-    public void onBackPressed() {
-        UserProfileActivity_.intent(this).start();
-        finish();
-    }
 
     @Click(R.id.tvCreateAddress)
     void setmTvCreatAddress() {

@@ -37,7 +37,7 @@ public class AccountActivity extends Fragment {
    }
    @Click(R.id.btnViewProfile)
     void setmBtnViewProfile(){
-       UserProfileActivity_.intent(this).start();
+       UserProfileActivity_.intent(this).extra("from","HomeActivity").start();
    }
    @Click(R.id.btnLogOut)
     void setmBtnLogOut(){

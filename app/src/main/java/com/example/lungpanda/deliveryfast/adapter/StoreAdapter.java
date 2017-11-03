@@ -49,6 +49,8 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
         holder.address.setText(store.getAddress());
         if (store.getStoreTypes() == null) {
             holder.store_type.setText("Did not set yet");
+        } else if (store.getStoreTypes().size() == 0 ){
+            holder.store_type.setText("Did not set yet");
         } else {
             String tmp = "";
             for (StoreType storeType : store.getStoreTypes()) {

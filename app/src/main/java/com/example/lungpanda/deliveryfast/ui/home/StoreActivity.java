@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.adapter.DividerItemDecoration;
@@ -59,19 +60,22 @@ public class StoreActivity extends Fragment {
                             for (Store store : tmp) {
                                 storeList.add(store);
                             }
+                            Log.i("TEST123456", "onResponse: " + storeList);
                             sAdapter.notifyDataSetChanged();
                         }
                     } else {
-
+                        Log.i("TEST123456", "onResponse: Fail respomse");
                     }
                 } else {
                     // Get fail
+                    Log.i("TEST123456", "onResponse: Fail server");
                 }
             }
 
             @Override
             public void onFailure(Call<StoreResult> call, Throwable t) {
                 //Exit app
+                Log.i("TEST123456", "onResponse: FAIL");
             }
         });
     }

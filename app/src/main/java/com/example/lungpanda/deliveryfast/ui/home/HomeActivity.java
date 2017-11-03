@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -73,11 +74,18 @@ public class HomeActivity extends FragmentActivity {
         });
 
 
+
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        int seletedItemId = bottomNavigation.getSelectedItemId();
+        if (R.id.action_home != seletedItemId) {
+            Log.i("TEST123456", "false");
+            bottomNavigation.setSelectedItemId(R.id.action_home);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void replaceFragment(Fragment frag) {
