@@ -1,34 +1,22 @@
 package com.example.lungpanda.deliveryfast.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TabHost;
-import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
-import com.example.lungpanda.deliveryfast.ui.account.AccountActivity;
-import com.example.lungpanda.deliveryfast.ui.account.AccountActivity_;
-import com.example.lungpanda.deliveryfast.ui.account.PhoneManageActivity;
+import com.example.lungpanda.deliveryfast.ui.account.AccountFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -62,13 +50,13 @@ public class HomeActivity extends FragmentActivity {
                         fragment = StoreActivity_.builder().build();
                         break;
                     case R.id.action_bill:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = HistoryFragment_.builder().build();
                         break;
                     case R.id.action_notification:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = NotificationFragment_.builder().build();
                         break;
                     case R.id.action_user:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = AccountFragment_.builder().build();
                         break;
                 }
                 replaceFragment(fragment);

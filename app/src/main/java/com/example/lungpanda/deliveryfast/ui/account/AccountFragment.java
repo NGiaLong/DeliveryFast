@@ -1,6 +1,5 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
@@ -8,14 +7,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.lungpanda.deliveryfast.R;
+import com.example.lungpanda.deliveryfast.ui.home.HomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-@EFragment(R.layout.activity_account)
-public class AccountActivity extends Fragment {
+@EFragment(R.layout.fragment_account)
+public class AccountFragment extends Fragment {
     @ViewById(R.id.btnSignIn)
     Button mBtnSignIn;
     @ViewById(R.id.btnViewProfile)
@@ -47,6 +47,7 @@ public class AccountActivity extends Fragment {
        editor.putString(SignInActivity.ID_TOKEN, "");
        editor.commit();
        viewStatus();
+       HomeActivity_.intent(getContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
    }
    public void viewStatus(){
        SharedPreferences settings = getActivity().getSharedPreferences(SignInActivity.NAME_SHAREPREFERENCE, 0);
