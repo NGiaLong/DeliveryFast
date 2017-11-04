@@ -5,6 +5,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.adapter.DividerItemDecoration;
@@ -36,7 +37,12 @@ public class StoreActivity extends Fragment {
     @AfterViews
     void init() {
 
-        sAdapter = new StoreAdapter(storeList);
+        sAdapter = new StoreAdapter(storeList, new StoreAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Store store) {
+                Toast.makeText(getContext(), store.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

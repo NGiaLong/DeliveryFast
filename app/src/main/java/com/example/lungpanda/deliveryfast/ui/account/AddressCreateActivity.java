@@ -15,4 +15,6 @@ public class AddressCreateActivity extends AppCompatActivity {
         AddressActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
+
+
 }
