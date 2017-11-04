@@ -19,6 +19,7 @@ import com.example.lungpanda.deliveryfast.model.SignUp.SignUpResult;
 import com.example.lungpanda.deliveryfast.model.User.User;
 import com.example.lungpanda.deliveryfast.api.Api;
 import com.example.lungpanda.deliveryfast.api.ApiClient;
+import com.example.lungpanda.deliveryfast.ui.home.HomeActivity_;
 import com.example.lungpanda.deliveryfast.ui.home.StoreActivity_;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         User user = response.body().getData().getUser();
                                         String id_token = response.body().getData().getId_token();
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
+                                        HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                     } else {
                                         String message = response.body().getMessage().toString();
                                         Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
@@ -114,13 +115,15 @@ public class SignUpActivity extends AppCompatActivity {
                                         }
                                     }
                                 } else {
+                                    onBackPressed();
                                     Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<SignUpResult> call, Throwable t) {
-                                Log.d("ERROR123", t.getMessage());
+                                onBackPressed();
+                                Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                             }
                         });
 

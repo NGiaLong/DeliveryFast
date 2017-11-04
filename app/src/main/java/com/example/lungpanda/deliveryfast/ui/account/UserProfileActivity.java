@@ -145,11 +145,11 @@ public class UserProfileActivity extends AppCompatActivity {
                         mEdtFirstName.requestFocus();
 
                     } else {
-                        HomeActivity_.intent(getApplicationContext()).start();
+                        onBackPressed();
                         Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    HomeActivity_.intent(getApplicationContext()).start();
+                    onBackPressed();
                     Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -161,11 +161,11 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-
     @Click(R.id.imgBack)
     public void setmImgBack() {
         onBackPressed();
     }
+
 
     @Click(R.id.tvSave)
     public void setmBtSave() {

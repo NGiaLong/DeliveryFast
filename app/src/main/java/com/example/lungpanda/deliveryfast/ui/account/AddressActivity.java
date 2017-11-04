@@ -1,5 +1,6 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +57,7 @@ public class AddressActivity extends AppCompatActivity {
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
 
-                AddressManageActivity_.intent(getApplicationContext()).id_token(id_token).userAddress(userAddress).start();
+                AddressManageActivity_.intent(getApplicationContext()).id_token(id_token).userAddress(userAddress).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
 
             }
         });
@@ -87,16 +88,16 @@ public class AddressActivity extends AppCompatActivity {
                             addressAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        UserProfileActivity_.intent(getApplicationContext()).start();
+                        onBackPressed();
                     }
                 } else {
-                    UserProfileActivity_.intent(getApplicationContext()).start();
+                    onBackPressed();
                 }
             }
 
             @Override
             public void onFailure(Call<UserAddressResult> call, Throwable t) {
-                UserProfileActivity_.intent(getApplicationContext()).start();
+                onBackPressed();
 
             }
         });
@@ -107,10 +108,15 @@ public class AddressActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed(){
+        UserProfileActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+    }
+
 
     @Click(R.id.tvCreateAddress)
     void setmTvCreatAddress() {
-        AddressCreateActivity_.intent(this).start();
+        AddressCreateActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
 

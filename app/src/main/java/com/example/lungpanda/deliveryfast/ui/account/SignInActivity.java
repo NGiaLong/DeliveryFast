@@ -107,18 +107,21 @@ public class SignInActivity extends AppCompatActivity {
                             editor.putString(ID_TOKEN, response.body().getData().getId_token());
                             editor.putString(CURRENT_USER, response.body().getData().getUser().toString());
                             editor.commit();
-                            UserProfileActivity_.intent(getApplicationContext()).start();
+                            HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                         } else {
+                            onBackPressed();
                             Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        onBackPressed();
                         Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SignInResult> call, Throwable t) {
-                    Log.i("Long111", "onResponse: " + t.toString());
+                    onBackPressed();
+                    Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                 }
             });
 

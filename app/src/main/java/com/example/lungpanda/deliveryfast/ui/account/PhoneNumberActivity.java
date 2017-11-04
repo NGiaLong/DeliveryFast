@@ -148,6 +148,11 @@ public class PhoneNumberActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed(){
+        UserProfileActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+    }
+
 
     private void prepareData() {
         Api api = ApiClient.retrofit().create(Api.class);

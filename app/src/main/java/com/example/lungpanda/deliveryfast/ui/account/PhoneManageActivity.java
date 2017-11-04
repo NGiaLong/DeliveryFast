@@ -61,6 +61,11 @@ public class PhoneManageActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed(){
+        PhoneNumberActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+    }
+
     @Click(R.id.btnDeletePhone)
     void setmBtnDelePhone() {
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {

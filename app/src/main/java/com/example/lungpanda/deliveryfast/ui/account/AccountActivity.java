@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -33,11 +34,11 @@ public class AccountActivity extends Fragment {
 
     @Click(R.id.btnSignIn)
    void setmBtnSignIn(){
-       SignInActivity_.intent(this).start();
+       SignInActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
    }
    @Click(R.id.btnViewProfile)
     void setmBtnViewProfile(){
-       UserProfileActivity_.intent(this).extra("from","HomeActivity").start();
+       UserProfileActivity_.intent(this).start();
    }
    @Click(R.id.btnLogOut)
     void setmBtnLogOut(){
