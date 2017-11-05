@@ -11,6 +11,8 @@ import lombok.Data;
  */
 @Data
 public class UserAddressData {
-    @SerializedName("address")
+    @SerializedName("addresses")
     private List<UserAddress> userAddresses;
+    @SerializedName("address")
+    private UserAddress userAddress;
 }

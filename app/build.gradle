@@ -60,4 +60,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     provided 'org.projectlombok:lombok:1.12.6'
     annotationProcessor "org.projectlombok:lombok:1.12.6"
+
+    compile 'com.google.android.gms:play-services-location:10.2.6'
+    compile 'com.google.android.gms:play-services-maps:10.2.6'
 }

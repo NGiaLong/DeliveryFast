@@ -4,78 +4,99 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lungpanda.deliveryfast.R;
-import com.example.lungpanda.deliveryfast.model.Store.Store;
-import com.example.lungpanda.deliveryfast.model.Store.StoreType;
+import com.example.lungpanda.deliveryfast.model.Store.Category;
+import com.example.lungpanda.deliveryfast.model.Store.Product;
 
 import java.util.List;
 
 /**
- * Created by LungPanda on 10/4/2017.
+ * Created by LungPanda on 11/5/2017.
  */
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder> {
     public interface OnItemClickListener {
-        void onItemClick(Store store);
+        void onIncreaseClick(Product product);
+
+        void onDecreaseClick(Product product);
     }
 
-    private List<Store> storesList;
+    private final static int HEADER_VIEW = 0;
+    private final static int CONTENT_VIEW = 1;
+
+    private List<Category> categories;
     private final OnItemClickListener listener;
 
-    public StoreAdapter(List<Store> storesList, OnItemClickListener listener) {
-        this.storesList = storesList;
+    public StoreAdapter(List<Category> categories, OnItemClickListener listener) {
+        this.categories = categories;
         this.listener = listener;
+    }
+
+    public void add(Category category) {
+        categories.add(category);
+        notifyItemInserted(categories.size() - 1);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_list_row, parent, false);
-        return new MyViewHolder(v);
+        int layoutRes = 0;
+        switch (viewType) {
+            case HEADER_VIEW:
+                layoutRes = R.layout.category_list_header;
+                break;
+            case CONTENT_VIEW:
+                layoutRes = R.layout.category_list_content;
+                break;
+        }
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutRes,parent,false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(StoreAdapter.MyViewHolder holder, int position) {
-        holder.bind(storesList.get(position), listener);
+    public int getItemViewType(int position){
+        switch(position) {
+            case 0:
+                return HEADER_VIEW;
+            default:
+                return CONTENT_VIEW;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(StoreAdapter.MyViewHolder holder, int position){
+        holder.bind(getItemViewType(position), categories.get(position), listener);
     }
 
     @Override
     public int getItemCount() {
-        return storesList.size();
+        return categories.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, address, store_type;
+        final TextView mTvCategory,mTvProductName, mTvProductPrice, mTvQuantity;
+        final ImageView mIvProductImage, mIvDecreaseQuantity, mIvIncreaseQuantity;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view){
             super(view);
-            name = (TextView) view.findViewById(R.id.tvStoreName);
-            address = (TextView) view.findViewById(R.id.tvStoreAddress);
-            store_type = (TextView) view.findViewById(R.id.tvStoreType);
+            mTvCategory = (TextView) view.findViewById(R.id.tvCategory);
+            mTvProductName = (TextView) view.findViewById(R.id.tvProductName);
+            mTvProductPrice = (TextView) view.findViewById(R.id.tvProductPrice);
+            mTvQuantity = (TextView) view.findViewById(R.id.tvQuantity);
+            mIvProductImage = (ImageView) view.findViewById(R.id.ivProductImage);
+            mIvDecreaseQuantity = (ImageView) view.findViewById(R.id.ivDecreaseQuantity);
+            mIvIncreaseQuantity = (ImageView) view.findViewById(R.id.ivIncreaseQuantity);
         }
 
-        public void bind(final Store store, final OnItemClickListener listener) {
-            name.setText(store.getName());
-            address.setText(store.getAddress());
-            if (store.getStoreTypes() == null) {
-                store_type.setText("Unknown");
-            } else if (store.getStoreTypes().size() == 0) {
-                store_type.setText("Unknown");
+        public void bind(final int viewType, final Category category, final OnItemClickListener listener){
+            if (viewType == 0){
+                mTvCategory.setText(category.getName().toUpperCase());
             } else {
-                String tmp = "";
-                for (StoreType storeType : store.getStoreTypes()) {
-                    tmp += storeType.getType() + "/";
-                }
-                tmp = tmp.substring(0, tmp.length() - 1);
-                store_type.setText(tmp);
+
             }
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(store);
-                }
-            });
         }
     }
 }
+

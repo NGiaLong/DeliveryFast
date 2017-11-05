@@ -31,9 +31,9 @@ public class UserAddress implements Parcelable {
     @SerializedName("address")
     private String address;
     @SerializedName("latitude")
-    private long latitude;
+    private float latitude;
     @SerializedName("longitude")
-    private long longitude;
+    private float longitude;
     @SerializedName("user_id")
     private String user_id;
 
@@ -43,8 +43,8 @@ public class UserAddress implements Parcelable {
     protected UserAddress(Parcel parcel){
         id = parcel.readString();
         address = parcel.readString();
-        latitude = parcel.readLong();
-        longitude = parcel.readLong();
+        latitude = parcel.readFloat();
+        longitude = parcel.readFloat();
         user_id = parcel.readString();
     }
 
@@ -57,8 +57,8 @@ public class UserAddress implements Parcelable {
     public void writeToParcel(Parcel parcel, int i){
         parcel.writeString(id);
         parcel.writeString(address);
-        parcel.writeLong(latitude);
-        parcel.writeLong(longitude);
+        parcel.writeFloat(latitude);
+        parcel.writeFloat(longitude);
         parcel.writeString(user_id);
     }
 }

@@ -60,10 +60,11 @@
             android:hint="Enter your address"
             android:background="@color/tvWhite"
             android:maxLines="1"
-            android:maxLength="200"
+            android:inputType="textCapWords"
+            android:ellipsize="end"
             android:layout_marginBottom="5dp"
             android:paddingLeft="20dp"
-            android:id="@+id/tvAddressName"/>
+            android:id="@+id/edtAddressName"/>
         <TextView
             android:id="@+id/tvAddressOnMaps"
             android:layout_width="match_parent"
@@ -72,5 +73,22 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="3dp"
             android:textStyle="bold"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+            <fragment
+                android:id="@+id/mapView"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/btnEditPin"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:text="Edit pin"
+                android:textAllCaps="false"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
     </LinearLayout>
 </RelativeLayout>

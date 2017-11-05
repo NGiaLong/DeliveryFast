@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.adapter.AddressAdapter;
@@ -89,15 +90,18 @@ public class AddressActivity extends AppCompatActivity {
                         }
                     } else {
                         onBackPressed();
+                        Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     onBackPressed();
+                    Toast.makeText(getApplication(), "Error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserAddressResult> call, Throwable t) {
                 onBackPressed();
+                Toast.makeText(getApplication(), "Dead", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -116,7 +120,7 @@ public class AddressActivity extends AppCompatActivity {
 
     @Click(R.id.tvCreateAddress)
     void setmTvCreatAddress() {
-        AddressCreateActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+        AddressCreateActivity_.intent(this).id_token(id_token).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
 

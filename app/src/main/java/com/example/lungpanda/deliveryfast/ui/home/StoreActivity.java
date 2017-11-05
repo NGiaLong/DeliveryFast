@@ -9,11 +9,11 @@ import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.adapter.DividerItemDecoration;
-import com.example.lungpanda.deliveryfast.adapter.StoreAdapter;
+import com.example.lungpanda.deliveryfast.adapter.StoreListAdapter;
 import com.example.lungpanda.deliveryfast.api.Api;
 import com.example.lungpanda.deliveryfast.api.ApiClient;
 import com.example.lungpanda.deliveryfast.model.Store.Store;
-import com.example.lungpanda.deliveryfast.model.Store.StoreResult;
+import com.example.lungpanda.deliveryfast.model.Store.StoreListResult;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -29,7 +29,7 @@ import retrofit2.Response;
 @EFragment(R.layout.activity_store)
 public class StoreActivity extends Fragment {
     private List<Store> storeList = new ArrayList<>();
-    private StoreAdapter sAdapter;
+    private StoreListAdapter sAdapter;
     @ViewById(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -37,7 +37,7 @@ public class StoreActivity extends Fragment {
     @AfterViews
     void init() {
 
-        sAdapter = new StoreAdapter(storeList, new StoreAdapter.OnItemClickListener() {
+        sAdapter = new StoreListAdapter(storeList, new StoreListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Store store) {
                 Toast.makeText(getContext(), store.getName(), Toast.LENGTH_SHORT).show();
@@ -54,20 +54,21 @@ public class StoreActivity extends Fragment {
 
     private void prepareStoreData() {
         Api api = ApiClient.retrofit().create(Api.class);
-        Call<StoreResult> resultCall = api.getStores("application/json");
-        resultCall.enqueue(new Callback<StoreResult>() {
+        Call<StoreListResult> resultCall = api.getStores("application/json");
+        resultCall.enqueue(new Callback<StoreListResult>() {
             @Override
-            public void onResponse(Call<StoreResult> call, Response<StoreResult> response) {
+            public void onResponse(Call<StoreListResult> call, Response<StoreListResult> response) {
                 if (response.isSuccessful()) {
                     if (response.body().isStatus()) {
-                        List<Store> tmp = response.body().getStoreData().getStores();
+                        List<Store> tmp = response.body().getStoreListData().getStores();
                         if (tmp != null) {
                             storeList.clear();
                             for (Store store : tmp) {
                                 storeList.add(store);
+                                sAdapter.notifyDataSetChanged();
                             }
                             Log.i("TEST123456", "onResponse: " + storeList);
-                            sAdapter.notifyDataSetChanged();
+
                         }
                     } else {
                         Log.i("TEST123456", "onResponse: Fail respomse");
@@ -79,7 +80,7 @@ public class StoreActivity extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<StoreResult> call, Throwable t) {
+            public void onFailure(Call<StoreListResult> call, Throwable t) {
                 //Exit app
                 Log.i("TEST123456", "onResponse: FAIL");
             }

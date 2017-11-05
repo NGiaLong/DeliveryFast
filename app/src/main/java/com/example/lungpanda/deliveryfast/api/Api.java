@@ -7,7 +7,7 @@ import com.example.lungpanda.deliveryfast.model.SignIn.SignIn;
 import com.example.lungpanda.deliveryfast.model.SignIn.SignInResult;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUp;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUpResult;
-import com.example.lungpanda.deliveryfast.model.Store.StoreResult;
+import com.example.lungpanda.deliveryfast.model.Store.StoreListResult;
 import com.example.lungpanda.deliveryfast.model.UpdateResult;
 import com.example.lungpanda.deliveryfast.model.User.User;
 import com.example.lungpanda.deliveryfast.model.User.UserAddress;
@@ -74,7 +74,7 @@ public interface Api {
     //STORE
 
     @GET("stores")
-    Call<StoreResult> getStores (@Header("Content-Type") String content_type);
+    Call<StoreListResult> getStores (@Header("Content-Type") String content_type);
 
 
 

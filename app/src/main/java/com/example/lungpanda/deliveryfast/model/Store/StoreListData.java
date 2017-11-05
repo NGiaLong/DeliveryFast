@@ -10,7 +10,7 @@ import lombok.Data;
  * Created by LungPanda on 11/2/2017.
  */
 @Data
-public class StoreData {
+public class StoreListData {
     @SerializedName("stores")
     private List<Store> stores;
 }
