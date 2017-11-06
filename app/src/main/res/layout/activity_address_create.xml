@@ -17,17 +17,18 @@
 
         <ImageView
             android:id="@+id/imgBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/back" />
 
         <TextView
             android:id="@+id/tvFullName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Create new address"
             android:textColor="@color/name"
             android:textSize="15dp"
@@ -36,11 +37,12 @@
         <TextView
             android:id="@+id/tvSaveCreateAddress"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
+            android:gravity="center"
             android:text="CREATE"
             android:textColor="@color/name"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

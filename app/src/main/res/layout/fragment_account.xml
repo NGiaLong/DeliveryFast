@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.example.lungpanda.deliveryfast.ui.account.AccountFragment">
 
     <RelativeLayout
         android:id="@+id/RlToolbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/tvWhite">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Account"
             android:textColor="@color/name"

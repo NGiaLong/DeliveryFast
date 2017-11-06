@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -72,7 +73,6 @@ public class AddressCreateActivity extends AppCompatActivity implements OnMapRea
     private Marker mMarker;
     private GoogleApiClient mGoogleApiClient;
     private UserAddress userAddress = new UserAddress();
-    ;
 
     @AfterViews
     void init() {
@@ -99,7 +99,7 @@ public class AddressCreateActivity extends AppCompatActivity implements OnMapRea
         });
     }
 
-//    @Change(R.id.edtAddressName)
+    //    @Change(R.id.edtAddressName)
     void setmEdtAddressName() {
         LatLng location = LocationUtils.getLocationFromAddress(getApplicationContext(), mEdtAddressName.getText().toString());
         if (location != null) {

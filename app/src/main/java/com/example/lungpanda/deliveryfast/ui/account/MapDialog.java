@@ -65,6 +65,9 @@ public class MapDialog extends DialogFragment implements OnMapReadyCallback, Goo
                 if(getActivity() instanceof AddressCreateActivity){
                    ((AddressCreateActivity) getActivity()).setLocation(mMarker.getPosition());
                 }
+                if(getActivity() instanceof AddressManageActivity){
+                    ((AddressManageActivity) getActivity()).setLocation(mMarker.getPosition());
+                }
                 mMarker.remove();
                 mMap.clear();
                 dismiss();

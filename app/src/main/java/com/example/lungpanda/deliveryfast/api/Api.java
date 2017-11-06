@@ -71,6 +71,9 @@ public interface Api {
     @DELETE("users/address/{addressId}")
     Call<UserAddressResult> deleteAddress(@Path("addressId") String addressId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token );
 
+    @PUT("users/address/{addressId}")
+    Call<UserAddressResult> editAddress(@Path("addressId") String addressId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token, @Body UserAddress userAddress);
+
     //STORE
 
     @GET("stores")
