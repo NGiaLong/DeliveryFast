@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.example.lungpanda.deliveryfast.ui.account.AddressManageActivity">
+    <LinearLayout
+        android:id="@+id/llToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/backgroundTextView"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tvFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Edit address"
+            android:textColor="@color/name"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvSaveEditAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="SAVE"
+            android:textColor="@color/name"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/llToolBar">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADDRESS"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="3dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:hint="Enter your address"
+            android:background="@color/tvWhite"
+            android:maxLines="1"
+            android:inputType="textCapWords"
+            android:ellipsize="end"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="20dp"
+            android:id="@+id/edtAddressName"/>
+        <TextView
+            android:id="@+id/tvAddressOnMaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADDRESS ON MAP"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:textStyle="bold"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <fragment
+                android:id="@+id/mapView"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/btnEditPin"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:text="Edit pin"
+                android:textAllCaps="false"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DELETE"
+            android:background="@color/btDelete"
+            android:textColor="@color/tvWhite"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:id="@+id/btnDeleteAddress"/>
+
+    </LinearLayout>
+</RelativeLayout>

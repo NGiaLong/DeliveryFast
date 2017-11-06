@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.account;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -67,7 +68,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
-                PhoneManageActivity_.intent(getApplicationContext()).id_token(id_token).userPhone(userPhone).start();
+                PhoneManageActivity_.intent(getApplicationContext()).id_token(id_token).userPhone(userPhone).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
             }
         });
 
@@ -144,15 +145,14 @@ public class PhoneNumberActivity extends AppCompatActivity {
 
     @Click(R.id.imgBack)
     void setmImBack() {
-        UserProfileActivity_.intent(this).start();
-        finish();
+        onBackPressed();
     }
 
     @Override
-    public void onBackPressed() {
-        UserProfileActivity_.intent(this).start();
-        finish();
+    public void onBackPressed(){
+        UserProfileActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
+
 
     private void prepareData() {
         Api api = ApiClient.retrofit().create(Api.class);
@@ -163,11 +163,13 @@ public class PhoneNumberActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
                         List<UserPhone> tmp = response.body().getUserPhoneData().getUserPhones();
-                        phoneList.clear();
-                        for (UserPhone phone : tmp) {
-                            phoneList.add(phone);
+                        if(tmp != null){
+                            phoneList.clear();
+                            for (UserPhone phone : tmp) {
+                                phoneList.add(phone);
+                            }
+                            phoneAdapter.notifyDataSetChanged();
                         }
-                        phoneAdapter.notifyDataSetChanged();
                     } else {
                         UserProfileActivity_.intent(getApplicationContext()).start();
                     }

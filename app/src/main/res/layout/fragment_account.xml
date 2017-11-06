@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lungpanda.deliveryfast.ui.account.AccountActivity">
+    android:background="@color/background"
+    tools:context="com.example.lungpanda.deliveryfast.ui.account.AccountFragment">
 
     <RelativeLayout
         android:id="@+id/RlToolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="@color/tvWhite">
 
         <TextView
             android:layout_width="wrap_content"
@@ -17,12 +20,12 @@
             android:layout_centerInParent="true"
             android:text="Account"
             android:textColor="@color/name"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/search" />

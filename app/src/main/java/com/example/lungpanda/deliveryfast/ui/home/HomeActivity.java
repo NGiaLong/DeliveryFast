@@ -1,29 +1,23 @@
 package com.example.lungpanda.deliveryfast.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TabHost;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.lungpanda.deliveryfast.R;
-import com.example.lungpanda.deliveryfast.ui.account.AccountActivity;
-import com.example.lungpanda.deliveryfast.ui.account.AccountActivity_;
+import com.example.lungpanda.deliveryfast.ui.account.AccountFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -33,7 +27,7 @@ import java.lang.reflect.Field;
 
 
 @EActivity(R.layout.activity_home)
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends FragmentActivity {
 
     @ViewById(R.id.bottom_navigation)
     BottomNavigationView bottomNavigation;
@@ -46,24 +40,30 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.inflateMenu(R.menu.bottom_menu);
         fragmentManager = getSupportFragmentManager();
-        replaceFragment(AccountActivity_.builder().build());
+        replaceFragment(StoreActivity_.builder().build());
+
         disableShiftMode(bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                }
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.action_home:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = StoreActivity_.builder().build();
                         break;
                     case R.id.action_bill:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = HistoryFragment_.builder().build();
                         break;
                     case R.id.action_notification:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = NotificationFragment_.builder().build();
                         break;
                     case R.id.action_user:
-                        fragment = AccountActivity_.builder().build();
+                        fragment = AccountFragment_.builder().build();
                         break;
                 }
                 replaceFragment(fragment);
@@ -72,11 +72,47 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        int seletedItemId = bottomNavigation.getSelectedItemId();
+        if (R.id.action_home != seletedItemId) {
+            Log.i("TEST123456", "false");
+            bottomNavigation.setSelectedItemId(R.id.action_home);
+        } else {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+            //AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+            // Setting Dialog Title
+            alertDialog.setTitle("EXIT");
+            alertDialog.setIcon(R.drawable.delete);
+
+            // Setting Dialog Message
+            alertDialog.setMessage("Do you want to exit?");
+
+            // Setting Positive "Yes" Button
+            alertDialog.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+            // Setting Negative "NO" Button
+            alertDialog.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            // closed
+
+            // Showing Alert Message
+            alertDialog.show();
+
+        }
     }
 
     public void replaceFragment(Fragment frag) {
