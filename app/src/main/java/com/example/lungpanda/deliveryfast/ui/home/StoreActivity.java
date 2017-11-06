@@ -15,6 +15,8 @@ import com.example.lungpanda.deliveryfast.api.Api;
 import com.example.lungpanda.deliveryfast.api.ApiClient;
 import com.example.lungpanda.deliveryfast.model.Store.Store;
 import com.example.lungpanda.deliveryfast.model.Store.StoreListResult;
+import com.example.lungpanda.deliveryfast.ui.order.OrderActivity_;
+import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -41,6 +43,7 @@ public class StoreActivity extends Fragment {
         sAdapter = new StoreListAdapter(storeList, new StoreListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Store store) {
+                OrderActivity_.intent(getContext()).store_id(store.getId()).start();
                 Toast.makeText(getContext(), store.getName(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -70,22 +73,18 @@ public class StoreActivity extends Fragment {
                                 storeList.add(store);
                                 sAdapter.notifyDataSetChanged();
                             }
-                            Log.i("TEST123456", "onResponse: " + storeList);
-
                         }
                     } else {
-                        Log.i("TEST123456", "onResponse: Fail respomse");
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_LONG);
                     }
                 } else {
-                    // Get fail
-                    Log.i("TEST123456", "onResponse: Fail server");
+                    Toast.makeText(getContext(), "Server is not working", Toast.LENGTH_LONG);
                 }
             }
 
             @Override
             public void onFailure(Call<StoreListResult> call, Throwable t) {
-                //Exit app
-                Log.i("TEST123456", "onResponse: FAIL");
+                Toast.makeText(getContext(), "Server is not working", Toast.LENGTH_LONG);
             }
         });
     }

@@ -43,6 +43,9 @@
 
             <TextView
                 android:id="@+id/tvSave"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -254,6 +257,9 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="Manage phone number"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:textColor="@color/tvColor" />
 
             </TableRow>
@@ -319,6 +325,9 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="0 Address"
                     android:textColor="@color/tvColor"
                     android:id="@+id/tvManageAddress"/>

@@ -1,6 +1,9 @@
 package com.example.lungpanda.deliveryfast.model.Store;
 
+import com.example.lungpanda.deliveryfast.model.Order.OrderDetail;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,9 +17,11 @@ public class Product {
     @SerializedName("name")
     private String name;
     @SerializedName("price")
-    private long price;
+    private int price;
     @SerializedName("image_url")
     private String image_url;
     @SerializedName("category_id")
     private String category_id;
+    @SerializedName("order_details")
+    private List<OrderDetail> orderDetails;
 }

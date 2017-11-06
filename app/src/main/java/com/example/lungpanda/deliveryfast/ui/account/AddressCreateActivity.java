@@ -84,7 +84,7 @@ public class AddressCreateActivity extends AppCompatActivity implements OnMapRea
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 boolean handled = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
+                if (i == EditorInfo.IME_ACTION_DONE || i == KeyEvent.KEYCODE_SPACE) {
                     setmEdtAddressName();
                     handled = true;
                     try {

@@ -8,6 +8,7 @@ import com.example.lungpanda.deliveryfast.model.SignIn.SignInResult;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUp;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUpResult;
 import com.example.lungpanda.deliveryfast.model.Store.StoreListResult;
+import com.example.lungpanda.deliveryfast.model.Store.StoreResult;
 import com.example.lungpanda.deliveryfast.model.UpdateResult;
 import com.example.lungpanda.deliveryfast.model.User.User;
 import com.example.lungpanda.deliveryfast.model.User.UserAddress;
@@ -31,54 +32,55 @@ import retrofit2.http.Query;
 public interface Api {
     //USER
 
-    @GET("users")
+    @GET("/api/users")
     Call<List<UserResult>> listTasks(@Query("offset") int offset, @Query("limit") int limit);
 
-    @GET("users/profile")
+    @GET("/api/users/profile")
     Call<UserResult> getUser(@Header("Content-Type") String content_type,  @Header("Authorization") String id_token);
 
-    @POST("users/signup")
+    @POST("/api/users/signup")
     Call<SignUpResult> createAccount(@Header("Content-Type") String content_type, @Body SignUp signUp);
 
-    @POST("users/signin")
+    @POST("/api/users/signin")
     Call<SignInResult> signIn(@Header("Content-Type") String content_type, @Body SignIn signIn);
 
-    @PUT("users/updateInfo")
+    @PUT("/api/users/updateInfo")
     Call<UpdateResult> updateInfor(@Header("Content-Type") String content_type, @Body User user, @Header("Authorization") String id_token);
 
     //USER/PHONE
 
-    @GET("users/phoneNumber")
+    @GET("/api/users/phoneNumber")
     Call<UserPhoneResult> getPhone(@Header("Content-Type") String content_type,  @Header("Authorization") String id_token);
 
-    @POST("users/phoneNumber")
+    @POST("/api/users/phoneNumber")
     Call<UserPhoneResult> phone(@Header("Content-Type") String content_type, @Header("Authorization") String id_token, @Body UserPhone userPhone);
 
-    @DELETE("users/phoneNumber/{phoneId}")
+    @DELETE("/api/users/phoneNumber/{phoneId}")
     Call<UserPhoneResult> deletePhone(@Path("phoneId") String phoneId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token);
 
-    @PUT("users/phoneNumber/{phoneId}")
+    @PUT("/api/users/phoneNumber/{phoneId}")
     Call<UserPhoneResult> setMainPhone(@Path("phoneId") String phoneId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token);
 
     //USER/ADDRESS
 
-    @GET("users/address")
+    @GET("/api/users/address")
     Call<UserAddressResult> getAddress(@Header("Content-Type") String content_type,  @Header("Authorization") String id_token);
 
-    @POST("users/address")
+    @POST("/api/users/address")
     Call<UserAddressResult> createAddress(@Header("Content-Type") String content_type, @Header("Authorization") String id_token, @Body UserAddress userAddress);
 
-    @DELETE("users/address/{addressId}")
+    @DELETE("/api/users/address/{addressId}")
     Call<UserAddressResult> deleteAddress(@Path("addressId") String addressId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token );
 
-    @PUT("users/address/{addressId}")
+    @PUT("/api/users/address/{addressId}")
     Call<UserAddressResult> editAddress(@Path("addressId") String addressId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token, @Body UserAddress userAddress);
 
     //STORE
 
-    @GET("stores")
+    @GET("/api/stores")
     Call<StoreListResult> getStores (@Header("Content-Type") String content_type);
 
-
+    @GET("/api/stores/{storeId}")
+    Call<StoreResult> getStoreById(@Path("storeId") String storeId, @Header("Content-Type") String content_type);
 
 }

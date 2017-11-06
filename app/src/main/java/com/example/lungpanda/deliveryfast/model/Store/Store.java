@@ -33,4 +33,6 @@ public class Store {
     private String image_url;
     @SerializedName("storeTypes")
     private List<StoreType> storeTypes;
+    @SerializedName("categories")
+    private List<Category> categories;
 }
