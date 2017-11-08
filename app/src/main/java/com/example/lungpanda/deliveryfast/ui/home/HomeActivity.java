@@ -37,7 +37,6 @@ public class HomeActivity extends FragmentActivity {
 
     @AfterViews
     void init() {
-
         bottomNavigation.inflateMenu(R.menu.bottom_menu);
         fragmentManager = getSupportFragmentManager();
         replaceFragment(StoreActivity_.builder().build());

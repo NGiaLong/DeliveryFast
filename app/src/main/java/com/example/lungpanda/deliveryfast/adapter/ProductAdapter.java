@@ -74,6 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         public void changeView(boolean checked, final Product product){
             if (checked) {
                 mIvDecreaseQuantity.setVisibility(View.VISIBLE);
+                mIvDecreaseQuantity.setEnabled(true);
                 mTvQuantity.setVisibility(View.VISIBLE);
                 int tmpQuanlity = 0;
                 for (OrderDetail orderDetail : product.getOrderDetails()){
@@ -82,6 +83,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 mTvQuantity.setText(tmpQuanlity+"");
             } else {
                 mIvDecreaseQuantity.setVisibility(View.INVISIBLE);
+                mIvDecreaseQuantity.setEnabled(false);
                 mTvQuantity.setVisibility(View.INVISIBLE);
             }
         }

@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,17 +17,20 @@ import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.model.Order.OrderDetail;
 import com.example.lungpanda.deliveryfast.model.Store.Category;
 import com.example.lungpanda.deliveryfast.model.Store.Product;
+import com.example.lungpanda.deliveryfast.ui.order.AddAddonDialog_;
+import com.example.lungpanda.deliveryfast.ui.order.MinusAddonDialog_;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
     private List<Category> categoryList;
-    private Context mContext;
+    private FragmentManager mFragmentManager;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
+    public CategoryAdapter(List<Category> categoryList, FragmentManager fragmentManager) {
         this.categoryList = categoryList;
-        mContext = context;
+        this.mFragmentManager = fragmentManager;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.bind(categoryList.get(position), position);
+        holder.bind(categoryList.get(position));
     }
 
     @Override
@@ -62,7 +66,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             context = view.getContext();
         }
 
-        public void bind(Category category, final int position) {
+        public void bind(Category category) {
             List<Product> proList = category.getProducts();
             mTvCategory.setText(category.getName());
             Log.i("TAG11", "BBBBBBBB" + proList.size());
@@ -72,54 +76,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 productAdapter = new ProductAdapter(proList, new ProductAdapter.OnItemClickListener() {
                     @Override
                     public void onIncreaseClick(Product product) {
-                        List<OrderDetail> orderDetails = product.getOrderDetails();
-                        List<OrderDetail> details = new ArrayList<>();
-                        if (orderDetails == null) {
-                            OrderDetail orderDetail = new OrderDetail("", product.getName(), "", 1, product.getPrice());
-                            details.add(orderDetail);
-                            product.setOrderDetails(details);
-                            productAdapter.notifyDataSetChanged();
-                        } else if (orderDetails.size() == 0) {
-                            OrderDetail orderDetail = new OrderDetail("", product.getName(), "", 1, product.getPrice());
-                            details.add(orderDetail);
-                            product.setOrderDetails(details);
-                            productAdapter.notifyDataSetChanged();
-                        } else {
-                            OrderDetail orderDetail = new OrderDetail("", product.getName(), "", 1, product.getPrice());
-                            boolean check = true;
-                            for (OrderDetail tmp : orderDetails) {
-                                if (orderDetail.getDetail().equals(tmp.getDetail()) && check) {
-                                    check = false;
-                                    tmp.setQuanlity(tmp.getQuanlity() + 1);
-                                    tmp.setPrice(tmp.getQuanlity() * product.getPrice());
-                                }
-                                details.add(tmp);
+                        Gson gson = new Gson();
+                        String productString = gson.toJson(product);
+                        String addonString = "";
+                        for (Category tmp : categoryList){
+                            if (tmp.getId().equals(product.getCategory_id())){
+                                addonString = gson.toJson(tmp.getAddOn());
                             }
-                            product.setOrderDetails(details);
-                            productAdapter.notifyDataSetChanged();
                         }
+                        AddAddonDialog_.builder().product(productString).addon(addonString).build().show(mFragmentManager);
                     }
 
                     @Override
                     public void onDecreaseClick(Product product) {
-                        List<OrderDetail> orderDetails = product.getOrderDetails();
-                        List<OrderDetail> details = orderDetails;
-                        boolean check = true;
-                        for (OrderDetail detail : orderDetails){
-                            if (detail.getQuanlity() == 1 && check){
-                                details.remove(detail);
-                                break;
-                            } else if (detail.getQuanlity() > 1 && check) {
-                                OrderDetail tmp = detail;
-                                details.remove(detail);
-                                tmp.setQuanlity(tmp.getQuanlity() - 1);
-                                tmp.setPrice(tmp.getPrice()*tmp.getQuanlity()/(tmp.getQuanlity()+1));
-                                details.add(tmp);
-                                break;
-                            }
-                        }
-                        product.setOrderDetails(details);
-                        productAdapter.notifyDataSetChanged();
+                        Gson gson = new Gson();
+                        String productString = gson.toJson(product);
+                        MinusAddonDialog_.builder().product(productString).build().show(mFragmentManager);
                     }
                 });
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Order ID"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="Order ID"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Order date"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="06/11/2017 15:15:00"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Delivery date"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="06/11/2017 16:30:00"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Total"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="2 Items - 60200 đ - Cash"/>
+        </TableRow>
+    </TableLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/background"
+            android:id="@+id/ivProfileImage"/>
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:id="@+id/tvName"
+            android:paddingLeft="10dp"
+            android:text="Nguyễn Gia Long"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="15dp"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:layout_below="@+id/tvName"
+            android:paddingLeft="10dp"
+            android:text="Order Status"
+            android:textSize="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:text="Rate Report"
+            android:textSize="10dp"
+            android:layout_toRightOf="@+id/tvName"
+            android:textStyle="normal"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -67,6 +67,8 @@ public class StoreActivity extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body().isStatus()) {
                         List<Store> tmp = response.body().getStoreListData().getStores();
+                        Gson gson = new Gson();
+                        Log.i("DATA123456", "onResponse: " + gson.toJson(tmp));
                         if (tmp != null) {
                             storeList.clear();
                             for (Store store : tmp) {

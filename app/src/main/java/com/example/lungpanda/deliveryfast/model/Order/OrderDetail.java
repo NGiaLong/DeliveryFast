@@ -21,4 +21,21 @@ public class OrderDetail {
     private int quanlity;
     @SerializedName("price")
     private int price;
+    private int unit_price;
+
+    public OrderDetail() {
+    }
+
+    public boolean equals(OrderDetail orderDetail) {
+        boolean checked = false;
+        if (this.getProduct_name().equals(orderDetail.getProduct_name())) {
+            if (this.getPrice() / this.getQuanlity() == orderDetail.getPrice() / orderDetail.getQuanlity()) {
+                if (this.getDetail().equals(orderDetail.getDetail())) {
+                    checked = true;
+                }
+            }
+        }
+        return checked;
+    }
+
 }

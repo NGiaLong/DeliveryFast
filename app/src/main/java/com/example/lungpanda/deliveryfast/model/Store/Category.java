@@ -17,8 +17,8 @@ public class Category {
     private String name;
     @SerializedName("store_id")
     private String store_id;
-    @SerializedName("addon")
-    private AddOn addOn;
+    @SerializedName("addons")
+    private List<AddOn> addOn;
     @SerializedName("products")
     private List<Product> products;
 }
