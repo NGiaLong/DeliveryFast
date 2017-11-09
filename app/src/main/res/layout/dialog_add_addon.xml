@@ -23,7 +23,8 @@
                     android:id="@+id/ivProductImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@color/btDelete" />
+                    android:background="@color/background"
+                    android:src="@drawable/product"/>
 
                 <LinearLayout
                     android:id="@+id/llProductInformation"
@@ -91,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/llProductInfor"
+            android:layout_above="@id/llAddToCart"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

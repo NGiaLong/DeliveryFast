@@ -30,13 +30,11 @@ public class OrderDetailAddapter extends RecyclerView.Adapter<OrderDetailAddapte
     }
 
     private List<OrderDetail> mOrderDetails;
-    private String mProductImage;
     private String baseUrl = ApiClient.getBaseUrl();
     private OnItemClickListener mListener;
 
-    public OrderDetailAddapter(List<OrderDetail> mOrderDetails,String mProductImage, OnItemClickListener mListener) {
+    public OrderDetailAddapter(List<OrderDetail> mOrderDetails, OnItemClickListener mListener) {
         this.mOrderDetails = mOrderDetails;
-        this.mProductImage = mProductImage;
         this.mListener = mListener;
     }
 
@@ -73,17 +71,17 @@ public class OrderDetailAddapter extends RecyclerView.Adapter<OrderDetailAddapte
             context = view.getContext();
         }
         public void bind(final OrderDetail orderDetail){
-            if(mProductImage!=null){
-                Picasso.with(context).load(baseUrl+mProductImage).into(mIvProductImage);
+            if(orderDetail.getProduct_image_url()!=null){
+                Picasso.with(context).load(baseUrl+orderDetail.getProduct_image_url()).into(mIvProductImage);
             }
             mTvProductName.setText(orderDetail.getProduct_name());
             mTvOrDetailDetail.setText(orderDetail.getDetail());
-            if (orderDetail.getQuanlity() > 0) {
+            if (orderDetail.getQuantity() > 0) {
                 updateView(true, orderDetail);
             } else {
                 updateView(false, orderDetail);
             }
-            mTvOrDetailPrice.setText(orderDetail.getUnit_price() + " đ x " + orderDetail.getQuanlity() + " = " + (orderDetail.getUnit_price()*orderDetail.getQuanlity()) + " đ" );
+            mTvOrDetailPrice.setText(orderDetail.getUnit_price() + " đ x " + orderDetail.getQuantity() + " = " + (orderDetail.getUnit_price()*orderDetail.getQuantity()) + " đ" );
             mIvIncreaseQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,7 +100,7 @@ public class OrderDetailAddapter extends RecyclerView.Adapter<OrderDetailAddapte
                 mIvDecreaseQuantity.setVisibility(View.VISIBLE);
                 mIvDecreaseQuantity.setEnabled(true);
                 mTvQuantity.setVisibility(View.VISIBLE);
-                mTvQuantity.setText(orderDetail.getQuanlity()+"");
+                mTvQuantity.setText(orderDetail.getQuantity()+"");
             } else {
                 mIvDecreaseQuantity.setVisibility(View.INVISIBLE);
                 mIvDecreaseQuantity.setEnabled(false);

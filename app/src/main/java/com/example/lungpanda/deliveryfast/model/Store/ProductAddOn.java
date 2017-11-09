@@ -18,17 +18,5 @@ public class ProductAddOn {
     @SerializedName("addon_id")
     private String addon_id;
 
-    public static ProductAddOn SelectedItem;
     private boolean checked = false;
-//    public void setChecked(boolean checked) {
-//        this.checked = checked;
-//    }
-
-    public void toggleCheckState() {
-        if (SelectedItem != null) {
-            SelectedItem.setChecked(false);
-        }
-        checked = !checked;
-        SelectedItem = this;
-    }
 }

@@ -78,7 +78,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 mTvQuantity.setVisibility(View.VISIBLE);
                 int tmpQuanlity = 0;
                 for (OrderDetail orderDetail : product.getOrderDetails()){
-                    tmpQuanlity += orderDetail.getQuanlity();
+                    tmpQuanlity += orderDetail.getQuantity();
                 }
                 mTvQuantity.setText(tmpQuanlity+"");
             } else {

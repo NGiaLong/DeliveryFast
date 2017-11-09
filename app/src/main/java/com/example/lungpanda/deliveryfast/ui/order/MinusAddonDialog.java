@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.WindowManager;
@@ -60,19 +61,21 @@ public class MinusAddonDialog extends DialogFragment {
 
         if (mProduct != null) {
             mOrderDetails = mProduct.getOrderDetails();
-            mOrderDetailAddapter = new OrderDetailAddapter(mOrderDetails, mProduct.getImage_url(), new OrderDetailAddapter.OnItemClickListener() {
+            mOrderDetailAddapter = new OrderDetailAddapter(mOrderDetails, new OrderDetailAddapter.OnItemClickListener() {
                 @Override
                 public void onIncreaseClick(OrderDetail orderDetail) {
-                    orderDetail.setQuanlity(orderDetail.getQuanlity() + 1);
-                    orderDetail.setPrice(orderDetail.getQuanlity()*orderDetail.getUnit_price());
+                    orderDetail.setQuantity(orderDetail.getQuantity() + 1);
+                    orderDetail.setPrice(orderDetail.getQuantity() * orderDetail.getUnit_price());
+                    updateView();
                     mOrderDetailAddapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onDecreaseClick(OrderDetail orderDetail) {
-                    if (orderDetail.getQuanlity() > 0){
-                        orderDetail.setQuanlity(orderDetail.getQuanlity() - 1);
-                        orderDetail.setPrice(orderDetail.getQuanlity()*orderDetail.getUnit_price());
+                    if (orderDetail.getQuantity() > 0) {
+                        orderDetail.setQuantity(orderDetail.getQuantity() - 1);
+                        orderDetail.setPrice(orderDetail.getQuantity() * orderDetail.getUnit_price());
+                        updateView();
                         mOrderDetailAddapter.notifyDataSetChanged();
                     }
                 }
@@ -81,23 +84,27 @@ public class MinusAddonDialog extends DialogFragment {
             mRvOrderdetail_recycler_view.setLayoutManager(mLayoutManager);
             mRvOrderdetail_recycler_view.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
             mRvOrderdetail_recycler_view.setAdapter(mOrderDetailAddapter);
+            updateView();
 
-            int totalPrice = 0;
-            for (OrderDetail tmp: mOrderDetails){
-                totalPrice += tmp.getPrice();
-            }
-            mTvOrderDetailsTotalPrice.setText(totalPrice+ " đ");
         } else {
             dismiss();
         }
 
     }
 
+    void updateView() {
+        int totalPrice = 0;
+        for (OrderDetail tmp : mOrderDetails) {
+            totalPrice += tmp.getPrice();
+        }
+        mTvOrderDetailsTotalPrice.setText(totalPrice + " đ");
+    }
+
     @Click(R.id.btnDone)
-    void setmBtnDone(){
-        for (OrderDetail orderDetail : mOrderDetails){
-            if (orderDetail.getQuanlity() == 0){
-                mOrderDetails.remove(orderDetail);
+    void setmBtnDone() {
+        for (int i = mOrderDetails.size() - 1; i >= 0; i--) {
+            if (mOrderDetails.get(i).getQuantity() == 0) {
+                mOrderDetails.remove(mOrderDetails.get(i));
             }
         }
         ((OrderActivity) getActivity()).minusOrderDetail(mProduct.getId(), mOrderDetails);
@@ -149,6 +156,14 @@ public class MinusAddonDialog extends DialogFragment {
         display.getSize(size);
         int width = size.x;
         return width * 98 / 100;
+    }
+
+    protected int getHeightDialog() {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
+        return height * 60 / 100;
     }
 
     protected int getPositionDialog() {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,9 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             List<Product> proList = category.getProducts();
             mTvCategory.setText(category.getName());
             Log.i("TAG11", "BBBBBBBB" + proList.size());
-            if (proList.size() == 0) {
-                mProductHolder.setVisibility(View.GONE);
-            } else {
+            if (proList != null) {
                 productAdapter = new ProductAdapter(proList, new ProductAdapter.OnItemClickListener() {
                     @Override
                     public void onIncreaseClick(Product product) {
@@ -97,7 +96,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
                 mProducts.setLayoutManager(mLayoutManager);
                 mProducts.setItemAnimator(new DefaultItemAnimator());
-                mProducts.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
                 mProducts.setAdapter(productAdapter);
             }
         }

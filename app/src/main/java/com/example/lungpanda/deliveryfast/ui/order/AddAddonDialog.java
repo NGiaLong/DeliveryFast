@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,34 +80,39 @@ public class AddAddonDialog extends DialogFragment {
         if (product != null && addon != null) {
             mProduct = gson.fromJson(product, Product.class);
             gson = new Gson();
-            Type addonType = new TypeToken<List<AddOn>>() {
-            }.getType();
+            Type addonType = new TypeToken<List<AddOn>>() {}.getType();
             mAddOnList = gson.fromJson(addon, addonType);
         } else {
             dismiss();
         }
-
-        mOrderDetail.setQuanlity(1);
-        mOrderDetail.setPrice(mProduct.getPrice());
-        mOrderDetail.setUnit_price(mProduct.getPrice());
-        mOrderDetail.setProduct_name(mProduct.getName());
-        mOrderDetail.setPrice(mProduct.getPrice());
-
-        if (mProduct != null && mAddOnList != null) {
+        if (mProduct != null) {
+            mOrderDetail.setQuantity(1);
+            mOrderDetail.setPrice(mProduct.getPrice());
+            mOrderDetail.setUnit_price(mProduct.getPrice());
+            mOrderDetail.setProduct_name(mProduct.getName());
+            mOrderDetail.setPrice(mProduct.getPrice());
             if (mProduct.getImage_url() != null) {
                 Picasso.with(getContext()).load(baseUrl + mProduct.getImage_url()).into(mIvProductImage);
             }
             mTvProductName.setText(mProduct.getName());
             mTvProductPrice.setText(mProduct.getPrice() + " đ");
-            mTvQuantity.setText(mOrderDetail.getQuanlity() + "");
-
-            mAddonAdapter = new AddonAdapter(mAddOnList, getActivity(), AddAddonDialog.this);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-            mRvAddon_recycler_view.setLayoutManager(mLayoutManager);
-            mRvAddon_recycler_view.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-            mRvAddon_recycler_view.setAdapter(mAddonAdapter);
-
-            mTvTotalPrice.setText(mOrderDetail.getPrice() + " đ");
+            mTvQuantity.setText(mOrderDetail.getQuantity() + "");
+            if (mAddOnList != null && mAddOnList.size() > 0) {
+                for (int i = mAddOnList.size() - 1; i >=0; i--){
+                    if (mAddOnList.get(i).getProductAddOns().size() == 0){
+                        mAddOnList.remove(mAddOnList.get(i));
+                    }
+                }
+                mRvAddon_recycler_view.setVisibility(View.VISIBLE);
+                mAddonAdapter = new AddonAdapter(mAddOnList, getActivity(), AddAddonDialog.this);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                mRvAddon_recycler_view.setLayoutManager(mLayoutManager);
+                mRvAddon_recycler_view.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+                mRvAddon_recycler_view.setAdapter(mAddonAdapter);
+                mTvTotalPrice.setText(mOrderDetail.getPrice() + " đ");
+            } else {
+                mRvAddon_recycler_view.setVisibility(View.GONE);
+            }
         } else {
             dismiss();
         }
@@ -115,10 +121,11 @@ public class AddAddonDialog extends DialogFragment {
     @Click(R.id.llAddToCart)
     void setmLlAddToCart() {
         String detail = " ";
+        Log.i("ADDON123456", "setmLlAddToCart: " + new Gson().toJson(mAddOnList));
         for (AddOn addOn : mAddOnList) {
             for (ProductAddOn productAddOn : addOn.getProductAddOns()) {
                 if (productAddOn.isChecked()) {
-                    detail += productAddOn.getName() + ",";
+                    detail += productAddOn.getName() + " ,";
                 }
             }
         }
@@ -126,42 +133,46 @@ public class AddAddonDialog extends DialogFragment {
             detail = detail.substring(0, detail.length() - 1);
         }
         mOrderDetail.setDetail(detail.trim());
-        ((OrderActivity) getActivity()).addOrderDetail(mProduct.getId(), mOrderDetail);
+        mOrderDetail.setProduct_id(mProduct.getId());
+        mOrderDetail.setProduct_image_url(mProduct.getImage_url());
+        ((OrderActivity) getActivity()).addOrderDetail(mOrderDetail);
         dismiss();
     }
 
     @Click(R.id.ivIncreaseQuantity)
     void setmIvIncreaseQuantity() {
-        if (mOrderDetail.getQuanlity() < 50) {
-            mOrderDetail.setQuanlity(mOrderDetail.getQuanlity() + 1);
+        if (mOrderDetail.getQuantity() < 50) {
+            mOrderDetail.setQuantity(mOrderDetail.getQuantity() + 1);
         }
         updateData();
     }
 
     @Click(R.id.ivDecreaseQuantity)
     void setmIvDecreaseQuantity() {
-        if (mOrderDetail.getQuanlity() == 1) {
+        if (mOrderDetail.getQuantity() == 1) {
             dismiss();
         } else {
-            mOrderDetail.setQuanlity(mOrderDetail.getQuanlity() - 1);
+            mOrderDetail.setQuantity(mOrderDetail.getQuantity() - 1);
         }
         updateData();
     }
 
     public void updateData() {
         int allAddonPrice = 0;
-        for (AddOn addOn : mAddOnList) {
-            for (ProductAddOn productAddOn : addOn.getProductAddOns()) {
-                if (productAddOn.isChecked()) {
-                    allAddonPrice += productAddOn.getPrice();
+        if (mAddOnList != null && mAddOnList.size() > 0) {
+            for (AddOn addOn : mAddOnList) {
+                for (ProductAddOn productAddOn : addOn.getProductAddOns()) {
+                    if (productAddOn.isChecked()) {
+                        allAddonPrice += productAddOn.getPrice();
+                    }
                 }
             }
+            mAddonAdapter.notifyDataSetChanged();
         }
         mOrderDetail.setUnit_price(mProduct.getPrice() + allAddonPrice);
-        mTvQuantity.setText(mOrderDetail.getQuanlity() + "");
-        mOrderDetail.setPrice(mOrderDetail.getQuanlity() * mOrderDetail.getUnit_price());
+        mTvQuantity.setText(mOrderDetail.getQuantity() + "");
+        mOrderDetail.setPrice(mOrderDetail.getQuantity() * mOrderDetail.getUnit_price());
         mTvTotalPrice.setText(mOrderDetail.getPrice() + " đ");
-        mAddonAdapter.notifyDataSetChanged();
     }
 
 
@@ -212,12 +223,13 @@ public class AddAddonDialog extends DialogFragment {
         int width = size.x;
         return width * 98 / 100;
     }
+
     protected int getHeighDialog() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int height = size.y;
-        return height * 98 / 100;
+        return height * 90 / 100;
     }
 
     protected int getPositionDialog() {

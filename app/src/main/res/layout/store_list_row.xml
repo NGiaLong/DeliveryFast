@@ -14,9 +14,10 @@
         android:id="@+id/ivStoreImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:src="@drawable/store"
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:background="#7f8fcf"/>
+        android:background="@color/background"/>
     <TextView
         android:id="@+id/tvStoreName"
         android:layout_width="match_parent"

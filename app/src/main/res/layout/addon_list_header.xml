@@ -9,7 +9,8 @@
         android:layout_height="40dp"
         android:layout_marginBottom="1dp"
         android:layout_marginTop="1dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/background">
 
         <TextView
             android:id="@+id/tvAddonHeader"
@@ -17,9 +18,11 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:textColor="@color/name"
+            android:textStyle="bold"
             android:paddingLeft="20dp"
             android:text="ADDON NAME"
-            android:textSize="18dp" />
+            android:textSize="15dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +41,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cvProduct_recycler_view"
         android:layout_below="@+id/llToolBar"
         tools:context=".ui.account.AddressActivity"
         tools:showIn="@layout/activity_address">

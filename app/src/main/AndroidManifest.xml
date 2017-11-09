@@ -38,7 +38,8 @@
         <activity android:name=".ui.account.AddressActivity_" />
         <activity android:name=".ui.account.AddressManageActivity_" />
         <activity android:name=".ui.account.AddressCreateActivity_" />
-        <activity android:name=".ui.order.OrderActivity_"/>
+        <activity android:name=".ui.order.OrderActivity_" />
+        <activity android:name=".ui.order.SubmitOrderActivity_"/>
     </application>
 
 </manifest>

@@ -14,7 +14,8 @@
             android:id="@+id/ivProductImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@color/btDelete"/>
+            android:src="@drawable/product"
+            android:background="@color/background"/>
 
         <LinearLayout
             android:id="@+id/llProductInformation"

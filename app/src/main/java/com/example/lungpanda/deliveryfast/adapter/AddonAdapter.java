@@ -66,44 +66,58 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.MyViewHolder
             mContext = view.getContext();
         }
 
-        public void bind(AddOn addOn) {
+        public void bind(final AddOn addOn) {
             final List<ProductAddOn> productAddOnList = addOn.getProductAddOns();
-
             mTvAddonHeader.setText(addOn.getName());
-
-            if (addOn.getRole() == 1){
-                mTvRequired.setVisibility(View.VISIBLE);
-                addOn.getProductAddOns().get(0).toggleCheckState();
-            } else {
-                mTvRequired.setVisibility(View.GONE);
-            }
-
-            if (productAddOnList != null) {
-                mRvAddonProducts.setVisibility(View.VISIBLE);
-                mAddonProductAdapter = new AddonProductAdapter(productAddOnList, new AddonProductAdapter.OnItemClickListener() {
-                    @Override
-                    public void onRadioButtonClicked(ProductAddOn productAddOn) {
-                        productAddOn.toggleCheckState();
-                        mAddonProductAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCheckBoxButtonCicked(ProductAddOn productAddOn) {
-                        if (productAddOn.isChecked()) {
-                            productAddOn.setChecked(false);
-                        } else {
-                            productAddOn.setChecked(true);
+            if (productAddOnList != null && productAddOnList.size() > 0) {
+                if (addOn.getRole() == 1) {
+                    boolean checked = true;
+                    for (ProductAddOn tmp : addOn.getProductAddOns()) {
+                        if (tmp.isChecked()) {
+                            checked = false;
+                            break;
                         }
-                        mAddonProductAdapter.notifyDataSetChanged();
-                        ((AddAddonDialog) mFragment).updateData();
                     }
-                }, addOn.getRole());
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-                mRvAddonProducts.setLayoutManager(mLayoutManager);
-                mRvAddonProducts.setItemAnimator(new DefaultItemAnimator());
-                mRvAddonProducts.setAdapter(mAddonProductAdapter);
-            } else {
-                mRvAddonProducts.setVisibility(View.GONE);
+                    mTvRequired.setVisibility(View.VISIBLE);
+                    if (checked) addOn.getProductAddOns().get(0).setChecked(true);
+                } else {
+                    mTvRequired.setVisibility(View.GONE);
+                }
+
+                if (productAddOnList != null) {
+                    mRvAddonProducts.setVisibility(View.VISIBLE);
+                    mAddonProductAdapter = new AddonProductAdapter(productAddOnList, new AddonProductAdapter.OnItemClickListener() {
+                        @Override
+                        public void onRadioButtonClicked(ProductAddOn productAddOn) {
+                            int tmp = productAddOnList.indexOf(productAddOn);
+                            for (int i = 0; i < productAddOnList.size(); i ++){
+                                if (i != tmp) {
+                                    productAddOnList.get(i).setChecked(false);
+                                }
+                            }
+                            productAddOn.setChecked(true);
+                            mAddonProductAdapter.notifyDataSetChanged();
+                            ((AddAddonDialog) mFragment).updateData();
+                        }
+
+                        @Override
+                        public void onCheckBoxButtonCicked(ProductAddOn productAddOn) {
+                            if (productAddOn.isChecked()) {
+                                productAddOn.setChecked(false);
+                            } else {
+                                productAddOn.setChecked(true);
+                            }
+                            mAddonProductAdapter.notifyDataSetChanged();
+                            ((AddAddonDialog) mFragment).updateData();
+                        }
+                    }, addOn.getRole());
+                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+                    mRvAddonProducts.setLayoutManager(mLayoutManager);
+                    mRvAddonProducts.setItemAnimator(new DefaultItemAnimator());
+                    mRvAddonProducts.setAdapter(mAddonProductAdapter);
+                } else {
+                    mRvAddonProducts.setVisibility(View.GONE);
+                }
             }
         }
     }
