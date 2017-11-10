@@ -1,5 +1,6 @@
 package com.example.lungpanda.deliveryfast.ui.home;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +44,7 @@ public class StoreActivity extends Fragment {
         sAdapter = new StoreListAdapter(storeList, new StoreListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Store store) {
-                OrderActivity_.intent(getContext()).store_id(store.getId()).start();
+                OrderActivity_.intent(getContext()).store_id(store.getId()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                 Toast.makeText(getContext(), store.getName(), Toast.LENGTH_SHORT).show();
             }
         });

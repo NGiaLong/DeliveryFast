@@ -41,5 +41,4 @@
         <activity android:name=".ui.order.OrderActivity_" />
         <activity android:name=".ui.order.SubmitOrderActivity_"/>
     </application>
-
 </manifest>

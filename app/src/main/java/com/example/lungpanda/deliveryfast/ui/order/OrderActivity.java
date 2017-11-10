@@ -2,6 +2,7 @@ package com.example.lungpanda.deliveryfast.ui.order;
 
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -210,6 +211,7 @@ public class OrderActivity extends AppCompatActivity {
         order.setStore_id(store_id);
         order.setOrderDetails(mainOrderDetailList);
         Log.i("ORDER123456", "Order: " + new Gson().toJson(order));
+        SubmitOrderActivity_.intent(this).sStore_id(store_id).sStoreName(mTvStoreName.getText().toString()).sOrder(new Gson().toJson(order)).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
     }
 
     @Click(R.id.imgBack)

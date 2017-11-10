@@ -1,9 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
     tools:context="com.example.lungpanda.deliveryfast.ui.order.SubmitOrderActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tvWhite"
+        android:id="@+id/flOrderDetail"
+        android:translationZ="20dp"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/llToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/backgroundTextView"
+        android:elevation="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tvStoreName"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:textColor="@color/name"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/flLocation"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llToolBar"
+        android:id="@+id/llOrderContent"
+        android:background="@color/tvWhite"
+        android:scrollbars="vertical"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flView">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="dddddddd"/>
+        </FrameLayout>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+            <TableRow
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/trAllItem">
+                <TextView
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Total 1 item"/>
+                <TextView
+                    android:text="42000 đ"
+                    android:textColor="@color/name"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_column="2"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Ship fee: "
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"/>
+                <TextView
+                    android:text="7.0 km"
+                    android:gravity="center"
+                    android:textColor="@color/btDelete"/>
+                <TextView
+                    android:text="35000 đ"
+                    android:textColor="@color/name"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textStyle="bold"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Discount code"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"/>
+                <Button
+                    android:text="Enter code"
+                    android:textAllCaps="false"
+                    android:textColor="@color/btDelete"/>
+                <TextView
+                    android:text="35000 đ"
+                    android:textColor="@color/name"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textStyle="bold"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Total"
+                    android:textColor="@color/name"
+                    android:textStyle="bold"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"/>
+                <TextView
+                    android:text="42000 đ"
+                    android:textColor="@color/name"
+                    android:textStyle="bold"
+                    android:layout_column="2"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"/>
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/llSubmitOrder"
+        android:background="@color/colorPrimaryDark">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit Order"
+            android:textStyle="bold"
+            android:textColor="@color/tvWhite"
+            android:textSize="17dp"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:text="42000 đ"
+            android:gravity="center_vertical|right"
+            android:paddingRight="10dp"
+            android:textColor="@color/tvWhite"/>
+    </RelativeLayout>
+
+</RelativeLayout>

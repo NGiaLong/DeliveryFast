@@ -1,6 +1,7 @@
 package com.example.lungpanda.deliveryfast.ui.order;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,8 @@ public class OrderDetailFragment extends Fragment {
     String sOrderDetail;
     @FragmentArg
     String sStoreName;
+    @FragmentArg
+    String sStore_id;
 
     private List<OrderDetail> mOrderDetails;
     private OrderDetailAddapter mOrderDetailAddapter;
@@ -57,13 +60,20 @@ public class OrderDetailFragment extends Fragment {
     void init() {
         if (sOrderDetail != null && sStoreName != null) {
             mTvStoreName.setText(sStoreName);
-            if (getActivity() instanceof OrderActivity){
+            if (getActivity() instanceof OrderActivity) {
                 mTvReset.setVisibility(View.VISIBLE);
                 mTvDone.setVisibility(View.GONE);
+                mLinearLayout.setVisibility(View.VISIBLE);
+
+            } else if (getActivity() instanceof SubmitOrderActivity) {
+                mTvReset.setVisibility(View.GONE);
+                mTvDone.setVisibility(View.VISIBLE);
+                mLinearLayout.setVisibility(View.GONE);
             }
-            Type mType = new TypeToken<List<OrderDetail>>() {}.getType();
+            Type mType = new TypeToken<List<OrderDetail>>() {
+            }.getType();
             mOrderDetails = new Gson().fromJson(sOrderDetail, mType);
-            if (mOrderDetails != null && mOrderDetails.size() > 0){
+            if (mOrderDetails != null && mOrderDetails.size() > 0) {
                 mOrderDetailAddapter = new OrderDetailAddapter(mOrderDetails, new OrderDetailAddapter.OnItemClickListener() {
                     @Override
                     public void onIncreaseClick(OrderDetail orderDetail) {
@@ -77,7 +87,7 @@ public class OrderDetailFragment extends Fragment {
                     public void onDecreaseClick(OrderDetail orderDetail) {
                         if (orderDetail.getQuantity() > 0) {
                             orderDetail.setQuantity(orderDetail.getQuantity() - 1);
-                            for (int i = mOrderDetails.size() - 1; i >= 0; i--){
+                            for (int i = mOrderDetails.size() - 1; i >= 0; i--) {
                                 if (mOrderDetails.get(i).getQuantity() == 0) {
                                     mOrderDetails.remove(mOrderDetails.get(i));
                                 }
@@ -102,35 +112,46 @@ public class OrderDetailFragment extends Fragment {
     }
 
     @Click(R.id.tvReset)
-    void setmTvReset(){
-        ((OrderActivity) getActivity()).setmTvReset();
+    void setmTvReset() {
+        if (getActivity() instanceof OrderActivity) {
+            ((OrderActivity) getActivity()).setmTvReset();
+        } else if(getActivity() instanceof SubmitOrderActivity) {
+            OrderActivity_.intent(this).store_id(sStore_id).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+        }
         getFragmentManager().popBackStack();
     }
 
-    @Click(R.id.imgBack)
-    void setmImgBack(){
-        if (getActivity() instanceof OrderActivity){
-            backActivity();
-        }
+    @Click(R.id.tvDone)
+    void setmImgBack() {
+        backActivity();
     }
+
     @Click(R.id.llSnackBar)
-    void backActivity(){
-        if (getActivity() instanceof OrderActivity){
+    void setmTvDone() {
+        backActivity();
+    }
+
+    @Click(R.id.imgBack)
+    void backActivity() {
+        if (getActivity() instanceof OrderActivity) {
             ((OrderActivity) getActivity()).updateViewFromFragment(mOrderDetails);
+        } else if (getActivity() instanceof SubmitOrderActivity) {
+
         }
         getFragmentManager().popBackStack();
     }
-    public void updateView(){
+
+    public void updateView() {
         totalItem = 0;
-        for (OrderDetail orderDetail : mOrderDetails){
+        for (OrderDetail orderDetail : mOrderDetails) {
             totalItem += orderDetail.getQuantity();
         }
-        switch (totalItem){
-            case 0 :
+        switch (totalItem) {
+            case 0:
                 mTvTotalItem.setText("0 item");
                 setmTvReset();
                 break;
-            case 1 :
+            case 1:
                 mTvTotalItem.setText("1 item");
                 break;
             default:
