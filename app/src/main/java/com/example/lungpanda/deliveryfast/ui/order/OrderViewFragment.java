@@ -61,8 +61,14 @@ public class OrderViewFragment extends Fragment {
                             mTvViewMore.setText("1 item more...");
                             break;
                         default:
-                            mTvViewMore.setText(itemAmount + " items more...");
+                            mTvViewMore.setText((itemAmount - quanlity) + " items more...");
                     }
+                    mTvViewMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((SubmitOrderActivity) getActivity()).setmTrAllItem();
+                        }
+                    });
                 }
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 mRecyclerView.setLayoutManager(mLayoutManager);

@@ -1,5 +1,7 @@
 package com.example.lungpanda.deliveryfast.model.Order;
 
+import com.example.lungpanda.deliveryfast.model.Store.Store;
+import com.example.lungpanda.deliveryfast.model.User.User;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class Order {
     private String user_phone;
     @SerializedName("user_address")
     private String user_address;
+    @SerializedName("user_name")
+    private String user_name;
     @SerializedName("latitude")
     private float latitude;
     @SerializedName("longitude")
@@ -37,14 +41,14 @@ public class Order {
     private String status;
     @SerializedName("payment")
     private String payment = "Cash";
-    @SerializedName("user_id")
-    private String user_id;
-    @SerializedName("store_id")
-    private String store_id;
-    @SerializedName("employee_id")
-    private String employee_id;
-    @SerializedName("deliMan_id")
-    private String deliMan_id;
+    @SerializedName("user")
+    private User user;
+    @SerializedName("store")
+    private Store store;
+    @SerializedName("employee")
+    private User employee;
+    @SerializedName("deliMan")
+    private User deliMan;
     @SerializedName("orderDetails")
     List<OrderDetail> orderDetails;
 

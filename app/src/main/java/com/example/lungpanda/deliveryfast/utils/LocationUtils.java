@@ -40,7 +40,7 @@ public class LocationUtils {
         }
     }
 
-    public static LatLng getLocationFromAddress(Context context,String location){
+    public static LatLng getLocationFromAddress(Context context, String location) {
         List<Address> addressList = null;
         Address address = null;
         try {
@@ -56,8 +56,47 @@ public class LocationUtils {
             }
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             return latLng;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
+
+    public static List<Address> getAddressListFromAddress(Context context, String location) {
+        List<Address> addressList = null;
+        try {
+            if (location != null || !location.equals("")) {
+                Geocoder geocoder = new Geocoder(context);
+                try {
+                    addressList = geocoder.getFromLocationName(location, 10);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return addressList;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String getAddressNameFromLocation(Context context, LatLng latLng) {
+        String address = "";
+        try {
+            if (latLng != null) {
+                Geocoder geocoder = new Geocoder(context);
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    if (addresses != null){
+                        address = addresses.get(0).getAddressLine(0);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return address;
+        } catch (Exception e1) {
+            return null;
+        }
+
+    }
+
 }

@@ -80,7 +80,8 @@ public class AddAddonDialog extends DialogFragment {
         if (product != null && addon != null) {
             mProduct = gson.fromJson(product, Product.class);
             gson = new Gson();
-            Type addonType = new TypeToken<List<AddOn>>() {}.getType();
+            Type addonType = new TypeToken<List<AddOn>>() {
+            }.getType();
             mAddOnList = gson.fromJson(addon, addonType);
         } else {
             dismiss();
@@ -98,8 +99,8 @@ public class AddAddonDialog extends DialogFragment {
             mTvProductPrice.setText(mProduct.getPrice() + " đ");
             mTvQuantity.setText(mOrderDetail.getQuantity() + "");
             if (mAddOnList != null && mAddOnList.size() > 0) {
-                for (int i = mAddOnList.size() - 1; i >=0; i--){
-                    if (mAddOnList.get(i).getProductAddOns().size() == 0){
+                for (int i = mAddOnList.size() - 1; i >= 0; i--) {
+                    if (mAddOnList.get(i).getProductAddOns().size() == 0) {
                         mAddOnList.remove(mAddOnList.get(i));
                     }
                 }
@@ -121,7 +122,6 @@ public class AddAddonDialog extends DialogFragment {
     @Click(R.id.llAddToCart)
     void setmLlAddToCart() {
         String detail = " ";
-        Log.i("ADDON123456", "setmLlAddToCart: " + new Gson().toJson(mAddOnList));
         for (AddOn addOn : mAddOnList) {
             for (ProductAddOn productAddOn : addOn.getProductAddOns()) {
                 if (productAddOn.isChecked()) {
@@ -179,10 +179,6 @@ public class AddAddonDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        /**
-         * Set width & height of dialog on onResume method follow this
-         * http://stackoverflow.com/questions/14946887/setting-the-size-of-a-dialogfragment
-         */
         if (getDialog().getWindow() != null) {
             WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
             params.width = getWidthDialog();
@@ -197,8 +193,6 @@ public class AddAddonDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
         if (dialog.getWindow() != null) {
-//            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         return dialog;
     }
@@ -235,6 +229,4 @@ public class AddAddonDialog extends DialogFragment {
     protected int getPositionDialog() {
         return Gravity.CENTER;
     }
-
-
 }

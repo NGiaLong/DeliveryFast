@@ -24,9 +24,9 @@ public class Store {
     @SerializedName("closing_time")
     private String closing_time;
     @SerializedName("latitude")
-    private float latitude;
+    private double latitude;
     @SerializedName("longitude")
-    private float longitude;
+    private double longitude;
     @SerializedName("status")
     private boolean status;
     @SerializedName("image_url")

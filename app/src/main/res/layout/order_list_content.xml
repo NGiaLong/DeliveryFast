@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:padding="10dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/llContent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="50"
-            android:id="@+id/tvQuantity"
-            android:textColor="@color/tvWhite"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:paddingLeft="10dp"
-            android:maxLines="1"
-            android:id="@+id/tvProductName"
-            android:text="Trà xanh kem phô mai"
-            android:textColor="@color/name" />
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvOrderDetailPrice"
-            android:gravity="center_vertical|right"
-            android:text="42000 đ" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llContent"
-        android:ellipsize="end"
-        android:id="@+id/tvOrDetailDetail"
         android:gravity="center_vertical"
-        android:maxLines="3"
-        android:paddingLeft="45dp"
-        android:text="Size M"
-        android:textSize="13dp" />
-</RelativeLayout>
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:text="99"
+                android:textSize="10dp"
+                android:textColor="@color/tvWhite"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:text="Trà xanh kem phô mai"
+                android:textColor="@color/name" />
+
+            <TextView
+                android:id="@+id/tvOrderDetailPrice"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:text="42000 đ" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOrDetailDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llContent"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="3"
+            android:paddingLeft="30dp"
+            android:text="Size M"
+            android:textSize="13dp" />
+    </RelativeLayout>
+</LinearLayout>

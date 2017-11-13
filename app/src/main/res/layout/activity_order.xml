@@ -7,7 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context="com.example.lungpanda.deliveryfast.ui.order.OrderActivity">
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:translationZ="20dp"
+        android:id="@id/progressBar"/>
     <FrameLayout
         android:id="@+id/flOrderDetail"
         android:layout_width="match_parent"

@@ -52,7 +52,7 @@ public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.MyVi
             super(itemView);
             productName = (TextView) itemView.findViewById(R.id.tvProductName);
             orderDetailQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
-            orderDetailPrice = (TextView) itemView.findViewById(R.id.tvOrDetailPrice);
+            orderDetailPrice = (TextView) itemView.findViewById(R.id.tvOrderDetailPrice);
             orderDetailDetail = (TextView) itemView.findViewById(R.id.tvOrDetailDetail);
         }
     }

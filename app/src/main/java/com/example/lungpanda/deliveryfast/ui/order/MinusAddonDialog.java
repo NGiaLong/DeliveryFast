@@ -131,8 +131,6 @@ public class MinusAddonDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
         if (dialog.getWindow() != null) {
-//            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         return dialog;
     }

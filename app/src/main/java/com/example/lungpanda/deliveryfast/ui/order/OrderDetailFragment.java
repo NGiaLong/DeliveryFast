@@ -114,11 +114,11 @@ public class OrderDetailFragment extends Fragment {
     @Click(R.id.tvReset)
     void setmTvReset() {
         if (getActivity() instanceof OrderActivity) {
+            getFragmentManager().popBackStack();
             ((OrderActivity) getActivity()).setmTvReset();
         } else if(getActivity() instanceof SubmitOrderActivity) {
-            OrderActivity_.intent(this).store_id(sStore_id).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+            ((SubmitOrderActivity) getActivity()).resetOrder();
         }
-        getFragmentManager().popBackStack();
     }
 
     @Click(R.id.tvDone)
@@ -136,7 +136,7 @@ public class OrderDetailFragment extends Fragment {
         if (getActivity() instanceof OrderActivity) {
             ((OrderActivity) getActivity()).updateViewFromFragment(mOrderDetails);
         } else if (getActivity() instanceof SubmitOrderActivity) {
-
+            ((SubmitOrderActivity) getActivity()).updateOrder(mOrderDetails);
         }
         getFragmentManager().popBackStack();
     }
@@ -158,4 +158,5 @@ public class OrderDetailFragment extends Fragment {
                 mTvTotalItem.setText(totalItem + " items");
         }
     }
+
 }

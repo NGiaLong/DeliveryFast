@@ -3,6 +3,7 @@ package com.example.lungpanda.deliveryfast.api;
 /**
  * Created by LungPanda on 10/12/2017.
  */
+import com.example.lungpanda.deliveryfast.model.Order.Order;
 import com.example.lungpanda.deliveryfast.model.SignIn.SignIn;
 import com.example.lungpanda.deliveryfast.model.SignIn.SignInResult;
 import com.example.lungpanda.deliveryfast.model.SignUp.SignUp;
@@ -20,6 +21,7 @@ import com.example.lungpanda.deliveryfast.model.User.UserResult;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -82,5 +84,12 @@ public interface Api {
 
     @GET("/api/stores/{storeId}")
     Call<StoreResult> getStoreById(@Path("storeId") String storeId, @Header("Content-Type") String content_type);
+
+    @GET("/api/stores/token/{storeId}")
+    Call<StoreResult> getStoreByIdLogin(@Path("storeId") String storeId, @Header("Content-Type") String content_type, @Header("Authorization") String id_token);
+
+
+    @GET("/api/{storeId}/{discountCode}")
+    Call<StoreResult> getDiscount(@Path("storeId") String storeId,@Path("discountCode") String discountCode, @Header("Content-Type") String content_type, @Header("Authorization") String id_token);
 
 }

@@ -21,9 +21,13 @@ public class OrderDetail {
     private int quantity;
     @SerializedName("price")
     private int price;
+    @SerializedName("order_id")
+    private String order_id;
+    @SerializedName("unit_price")
     private int unit_price;
-    private String product_id = "";
     private String product_image_url;
+    private String product_id = "";
+
 
     public OrderDetail() {
     }
