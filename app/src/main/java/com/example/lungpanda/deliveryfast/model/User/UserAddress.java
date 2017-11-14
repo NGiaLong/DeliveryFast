@@ -61,4 +61,13 @@ public class UserAddress implements Parcelable {
         parcel.writeDouble(longitude);
         parcel.writeString(user_id);
     }
+    private boolean checked = false;
+    public static UserAddress selected;
+    public void toggleCheckState() {
+        if (selected != null) {
+            selected.setChecked(false);
+        }
+        checked = !checked;
+        selected = this;
+    }
 }

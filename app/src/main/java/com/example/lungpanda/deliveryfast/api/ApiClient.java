@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static Retrofit retrofit = null;
-    private static String mBaseUrl = "https://97ed7400.ngrok.io";
+    private static String mBaseUrl = "http://21b9ae99.ngrok.io";
 
 
     public static Retrofit retrofit () {

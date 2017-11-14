@@ -18,8 +18,9 @@
         android:id="@+id/ivMaker"
         android:layout_marginLeft="10dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Phòng 412, Nhà 1, Chung cư Hòa Minh, 322 Hồ Tùng Mậu, Liên Chiểu, Đà Nẵng"
         android:gravity="center_vertical"
         android:id="@+id/tvAddress"
@@ -27,4 +28,10 @@
         android:layout_marginRight="10dp"
         android:maxLines="2"
         android:ellipsize="end"/>
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/isChecked"
+        android:src="@drawable/checked"/>
 </LinearLayout>

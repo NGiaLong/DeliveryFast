@@ -6,6 +6,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.icu.util.Calendar;
 import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.lungpanda.deliveryfast.R;
@@ -25,6 +26,8 @@ public class HistoryFragment extends Fragment {
     TextView mTvFromDate;
     @ViewById(R.id.tvFinishDate)
     TextView mTvFinishDate;
+    @ViewById(R.id.swHistory)
+    Switch mSwHistory;
 
     private int fYear, fMonth, fDay;
 
