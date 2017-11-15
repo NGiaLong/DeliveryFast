@@ -17,4 +17,6 @@ public class ProductAddOn {
     private long price;
     @SerializedName("addon_id")
     private String addon_id;
+
+    private boolean checked = false;
 }

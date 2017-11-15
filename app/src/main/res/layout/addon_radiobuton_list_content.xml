@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:orientation="horizontal">
+    <RadioButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/rbChosenAddonProduct"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_weight="1"
+        android:id="@+id/tvAddonProductName"
+        android:paddingLeft="10dp"
+        android:text="Size L"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+    <TextView
+        android:layout_width="100dp"
+        android:gravity="right"
+        android:text="10,000 đ"
+        android:id="@+id/tvAddonProductPrice"
+        android:layout_height="20dp" />
+
+</LinearLayout>

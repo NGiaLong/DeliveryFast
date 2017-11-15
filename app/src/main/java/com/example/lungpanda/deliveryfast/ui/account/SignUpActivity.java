@@ -98,10 +98,8 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onResponse(Call<SignUpResult> call, Response<SignUpResult> response) {
                                 if (response.isSuccessful()) {
                                     if (response.body().getStatus()) {
-                                        User user = response.body().getData().getUser();
-                                        String id_token = response.body().getData().getId_token();
                                         Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                        HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+                                        SignInActivity_.intent(getApplicationContext()).extra("username", mTvUseName.getText().toString()).extra("password", mTvPassword.getText().toString()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                                     } else {
                                         String message = response.body().getMessage().toString();
                                         Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();

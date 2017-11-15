@@ -1,11 +1,16 @@
 package com.example.lungpanda.deliveryfast.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
@@ -13,11 +18,17 @@ import com.example.lungpanda.deliveryfast.adapter.DividerItemDecoration;
 import com.example.lungpanda.deliveryfast.adapter.StoreListAdapter;
 import com.example.lungpanda.deliveryfast.api.Api;
 import com.example.lungpanda.deliveryfast.api.ApiClient;
+import com.example.lungpanda.deliveryfast.model.Store.Category;
 import com.example.lungpanda.deliveryfast.model.Store.Store;
 import com.example.lungpanda.deliveryfast.model.Store.StoreListResult;
+import com.example.lungpanda.deliveryfast.ui.account.SignInActivity;
+import com.example.lungpanda.deliveryfast.ui.account.SignInActivity_;
+import com.example.lungpanda.deliveryfast.ui.order.OrderActivity_;
+import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -33,15 +44,26 @@ public class StoreActivity extends Fragment {
     private StoreListAdapter sAdapter;
     @ViewById(R.id.recycler_view)
     RecyclerView recyclerView;
+    @ViewById(R.id.progressBar)
+    ProgressBar mProgressBar;
+
+    @FragmentArg
+    String id_token;
 
 
     @AfterViews
     void init() {
+        mProgressBar.setVisibility(View.VISIBLE);
 
         sAdapter = new StoreListAdapter(storeList, new StoreListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Store store) {
-                Toast.makeText(getContext(), store.getName(), Toast.LENGTH_SHORT).show();
+                if (id_token != null && !id_token.equals("")) {
+                    OrderActivity_.intent(getContext()).store_id(store.getId()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+                } else {
+                    SignInActivity_.intent(getContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+                    Toast.makeText(getContext(), "You have to sign in first!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -68,24 +90,35 @@ public class StoreActivity extends Fragment {
                             storeList.clear();
                             for (Store store : tmp) {
                                 storeList.add(store);
-                                sAdapter.notifyDataSetChanged();
                             }
-                            Log.i("TEST123456", "onResponse: " + storeList);
-
+                            for (int i = storeList.size() - 1; i >= 0; i--) {
+                                for (int j = storeList.get(i).getCategories().size() - 1; j >= 0; j--) {
+                                    if (storeList.get(i).getCategories().get(j).getProducts().size() == 0) {
+                                        storeList.get(i).getCategories().remove(storeList.get(i).getCategories().get(j));
+                                    }
+                                }
+                                if (storeList.get(i).getCategories().size() == 0) {
+                                    storeList.remove(storeList.get(i));
+                                }
+                            }
+                            sAdapter.notifyDataSetChanged();
+                            if (mProgressBar != null) {
+                                mProgressBar.setVisibility(View.GONE);
+                            }
                         }
                     } else {
-                        Log.i("TEST123456", "onResponse: Fail respomse");
+                        DialogFragment dialogFragment = new DialogFragment();
                     }
                 } else {
-                    // Get fail
-                    Log.i("TEST123456", "onResponse: Fail server");
+                    Toast.makeText((getActivity()).getBaseContext(), "Server is not working", Toast.LENGTH_LONG).show();
+                    getActivity().onBackPressed();
                 }
             }
 
             @Override
             public void onFailure(Call<StoreListResult> call, Throwable t) {
-                //Exit app
-                Log.i("TEST123456", "onResponse: FAIL");
+                Toast.makeText(getContext(), "Fail", Toast.LENGTH_LONG).show();
+                getActivity().onBackPressed();
             }
         });
     }

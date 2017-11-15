@@ -1,14 +1,21 @@
 package com.example.lungpanda.deliveryfast.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lungpanda.deliveryfast.R;
+import com.example.lungpanda.deliveryfast.api.Api;
+import com.example.lungpanda.deliveryfast.api.ApiClient;
 import com.example.lungpanda.deliveryfast.model.Store.Store;
 import com.example.lungpanda.deliveryfast.model.Store.StoreType;
+import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,17 +54,28 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, address, store_type;
+        public ImageView store_image;
+        LatLng mCurrentLocation, mStoreLocation;
+        Context context;
+        String baseUrl = ApiClient.getBaseUrl();
 
         public MyViewHolder(View view) {
             super(view);
+            context = view.getContext();
             name = (TextView) view.findViewById(R.id.tvStoreName);
             address = (TextView) view.findViewById(R.id.tvStoreAddress);
             store_type = (TextView) view.findViewById(R.id.tvStoreType);
+            store_image = (ImageView) view.findViewById(R.id.ivStoreImage);
         }
 
         public void bind(final Store store, final OnItemClickListener listener) {
+//            Log.i("TEST123456", "Store: " + store);
+            mStoreLocation = new LatLng((double) store.getLatitude(), (double) store.getLongitude());
             name.setText(store.getName());
             address.setText(store.getAddress());
+            if(store.getImage_url() != null) {
+                Picasso.with(context).load(baseUrl + store.getImage_url()).into(store_image);
+            }
             if (store.getStoreTypes() == null) {
                 store_type.setText("Unknown");
             } else if (store.getStoreTypes().size() == 0) {

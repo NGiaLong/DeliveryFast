@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/name"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/tvStoreName"
+            android:text="Sagoki - Trà sữa nhât bản"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="87 Hoàng Hoa Thám, Quận hải châu đà ẵng"
+            android:id="@+id/tvStoreAddress"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+    </LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="@color/tvWhite"
+        android:focusable="true"
+        android:padding="10dp">
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Order ID"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="Order ID"
+                android:id="@+id/tvOrderId"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Order date"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:id="@+id/tvOrderDate"
+                android:text="06/11/2017 15:15:00"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Delivery date"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="06/11/2017 16:30:00"
+                android:id="@+id/tvDeliveryDate"/>
+        </TableRow>
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:text="Total"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="20dp"
+                android:text="2 Items - 60200 đ - Cash"
+                android:id="@+id/tvOrderInformation"/>
+        </TableRow>
+    </TableLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:padding="5dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/checked"
+            android:id="@+id/ivIsSuccess"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="10dp"
+            android:id="@+id/tvOrderStatus"
+            android:gravity="center_vertical"
+            android:text="Order Status" />
+    </LinearLayout>
+
+</LinearLayout>

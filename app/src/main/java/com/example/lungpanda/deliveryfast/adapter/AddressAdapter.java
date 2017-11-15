@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lungpanda.deliveryfast.R;
@@ -45,14 +46,21 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView address;
+        final ImageView isChecked;
 
         public MyViewHolder(View view){
             super(view);
             address = (TextView) view.findViewById(R.id.tvAddress);
+            isChecked = (ImageView) view.findViewById(R.id.isChecked);
         }
 
         public void bind (final UserAddress userAddress, final OnItemClickListener listener){
             address.setText(userAddress.getAddress());
+            if (userAddress.isChecked()){
+                isChecked.setVisibility(View.VISIBLE);
+            } else {
+                isChecked.setVisibility(View.INVISIBLE);
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

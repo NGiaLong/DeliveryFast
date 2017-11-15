@@ -19,6 +19,6 @@ public class AddOn {
     private String category_id;
     @SerializedName("role")
     private int role;
-    @SerializedName("product_addons")
+    @SerializedName("productAddons")
     List<ProductAddOn> productAddOns;
 }

@@ -112,11 +112,6 @@ public class AddressActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    @Override
-    public void onBackPressed(){
-        UserProfileActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
-    }
-
 
     @Click(R.id.tvCreateAddress)
     void setmTvCreatAddress() {

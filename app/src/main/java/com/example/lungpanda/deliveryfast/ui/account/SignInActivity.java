@@ -56,6 +56,11 @@ public class SignInActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        if (getIntent().getStringExtra("username") != null && getIntent().getStringExtra("password") != null) {
+            mEdtUsername.setText(getIntent().getStringExtra("username"));
+            mEdtPassword.setText(getIntent().getStringExtra("password"));
+            setmBtnSignIn();
+        }
         SignIn si = new SignIn("lungpanda", "12345");
         Gson gson = new Gson();
         String json = gson.toJson(si);
@@ -71,12 +76,12 @@ public class SignInActivity extends AppCompatActivity {
 
     @Click(R.id.btnSignIn)
     void setmBtnSignIn() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
-        try  {
-            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
         }
