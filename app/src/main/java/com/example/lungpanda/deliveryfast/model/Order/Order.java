@@ -2,6 +2,7 @@ package com.example.lungpanda.deliveryfast.model.Order;
 
 import com.example.lungpanda.deliveryfast.model.Store.Store;
 import com.example.lungpanda.deliveryfast.model.User.User;
+import com.example.lungpanda.deliveryfast.model.User.UserAddress;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -53,5 +54,11 @@ public class Order {
     List<OrderDetail> orderDetails;
 
     public Order() {
+    }
+
+    public void changeAddress(UserAddress userAddress){
+        this.setUser_address(userAddress.getAddress());
+        this.setLatitude((float) userAddress.getLatitude());
+        this.setLongitude((float) userAddress.getLongitude());
     }
 }

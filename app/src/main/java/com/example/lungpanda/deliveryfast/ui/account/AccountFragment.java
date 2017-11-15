@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.lungpanda.deliveryfast.R;
+import com.example.lungpanda.deliveryfast.ui.home.HomeActivity;
 import com.example.lungpanda.deliveryfast.ui.home.HomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,12 +23,15 @@ public class AccountFragment extends Fragment {
     Button mBtnViewProfile;
     @ViewById(R.id.btnLogOut)
     Button mBtnLogOut;
+    @ViewById(R.id.btnHistory)
+    Button mBtnHistory;
+    @ViewById(R.id.btnAddress)
+    Button mBtnAddress;
     private String id_token;
     private String username;
     @AfterViews
     void init() {
         viewStatus();
-
    }
 
 
@@ -35,6 +39,11 @@ public class AccountFragment extends Fragment {
     @Click(R.id.btnSignIn)
    void setmBtnSignIn(){
        SignInActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
+   }
+
+   @Click(R.id.btnAddress)
+   void setmBtnAddress(){
+       AddressActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
    }
    @Click(R.id.btnViewProfile)
     void setmBtnViewProfile(){
@@ -56,10 +65,16 @@ public class AccountFragment extends Fragment {
            mBtnSignIn.setVisibility(View.GONE);
            mBtnViewProfile.setVisibility(View.VISIBLE);
            mBtnLogOut.setVisibility(View.VISIBLE);
+           mBtnAddress.setVisibility(View.VISIBLE);
        } else {
            mBtnSignIn.setVisibility(View.VISIBLE);
            mBtnViewProfile.setVisibility(View.GONE);
            mBtnLogOut.setVisibility(View.GONE);
+           mBtnAddress.setVisibility(View.GONE);
        }
+   }
+   @Click(R.id.btnHistory)
+    void  setmBtnHistory(){
+       ((HomeActivity)getActivity()).setBottomNavigation(R.id.action_bill);
    }
 }

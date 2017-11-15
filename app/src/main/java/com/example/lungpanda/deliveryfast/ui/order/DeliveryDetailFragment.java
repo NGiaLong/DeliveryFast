@@ -1,12 +1,14 @@
 package com.example.lungpanda.deliveryfast.ui.order;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.location.Address;
 import android.net.Uri;
@@ -17,12 +19,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.adapter.AddressAdapter;
@@ -61,8 +65,6 @@ public class DeliveryDetailFragment extends Fragment {
     TextView mTvDeliveryDate;
     @ViewById(R.id.tvDeliveryTime)
     TextView mTvDeliveryTime;
-    @ViewById(R.id.tvTest)
-    TextView mTvTest;
     @ViewById(R.id.address_recycler_view)
     RecyclerView mRecyclerView;
     @ViewById(R.id.tvViewMore)
@@ -82,22 +84,54 @@ public class DeliveryDetailFragment extends Fragment {
     private FragmentTransaction mFragmentTransaction;
     private Calendar mCalendar;
     private Store mStore;
+    private int asapHour, asapMinute, startHour, finishHour;
+    private String today;
 
+    @SuppressLint("WrongConstant")
     @AfterViews
     void init() {
+        //Prepare check time
+        mCalendar = Calendar.getInstance();
+        int round = mCalendar.get(java.util.Calendar.MINUTE) % 15;
+        mCalendar.add(java.util.Calendar.MINUTE, round < 8 ? -round : (15 - round));
+        mCalendar.add(java.util.Calendar.MINUTE, 45);
+        mCalendar.set(java.util.Calendar.SECOND, 0);
+        asapHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+        asapMinute = mCalendar.get(Calendar.MINUTE);
         mOrder = new Gson().fromJson(sOrder, Order.class);
+        Log.i("ORRDER111", "init: " + mOrder);
+        if (mOrder.getStore().getOpening_time() != null && mOrder.getStore().getClosing_time() != null) {
+            startHour = Integer.parseInt(mOrder.getStore().getOpening_time().split(":")[0]);
+            finishHour = Integer.parseInt(mOrder.getStore().getClosing_time().split(":")[0]);
+        } else {
+            startHour = 5;
+            finishHour = 22;
+        }
+        SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        today = formatDate.format(mCalendar.getTime());
+
         mEtReceiverName.setText(mOrder.getUser_name());
         mEtReceiverPhone.setText(mOrder.getUser_phone());
         Date date = new Date(mOrder.getDelivery_date());
         mUserAddresses = mOrder.getUser().getUserAddresses();
-        UserAddress userAddress = new UserAddress();
-        userAddress.setAddress(mOrder.getUser_address());
-        userAddress.setLatitude(mOrder.getLatitude());
-        userAddress.setLongitude(mOrder.getLongitude());
-        mUserAddresses.add(0,userAddress);
-        if (mUserAddresses.size() > 3){
+        boolean hasChecked = true;
+        for (UserAddress userAddress : mUserAddresses) {
+            if (userAddress.isChecked()) {
+                hasChecked = false;
+                break;
+            }
+        }
+        if (hasChecked) {
+            UserAddress tmp = new UserAddress();
+            tmp.setAddress(mOrder.getUser_address());
+            tmp.setLatitude(mOrder.getLatitude());
+            tmp.setLongitude(mOrder.getLongitude());
+            mUserAddresses.add(0, tmp);
+            mUserAddresses.get(0).setChecked(true);
+        }
+        if (mUserAddresses.size() > 3) {
             mtvViewMore.setVisibility(View.VISIBLE);
-            for (int i =0; i < 4; i++){
+            for (int i = 0; i < 3; i++) {
                 mUserAddressesView.add(mUserAddresses.get(i));
             }
 
@@ -105,12 +139,16 @@ public class DeliveryDetailFragment extends Fragment {
             mtvViewMore.setVisibility(View.GONE);
             mUserAddressesView = mUserAddresses;
         }
-        mUserAddressesView.get(0).toggleCheckState();
-        mUserAddresses.get(0).toggleCheckState();
         mAddressAdapter = new AddressAdapter(mUserAddressesView, new AddressAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(UserAddress userAddress) {
-                userAddress.toggleCheckState();
+                userAddress.setChecked(true);
+                for (UserAddress userAddress1 : mUserAddresses) {
+                    if (userAddress != userAddress1 && userAddress1.isChecked()) {
+                        userAddress1.setChecked(false);
+                    }
+                }
+                mAddressAdapter.notifyDataSetChanged();
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -135,7 +173,7 @@ public class DeliveryDetailFragment extends Fragment {
     }
 
     @Click(R.id.tvViewMore)
-    void setMtvViewMore(){
+    void setMtvViewMore() {
         setmTvSearchAddress();
     }
 
@@ -156,9 +194,34 @@ public class DeliveryDetailFragment extends Fragment {
 
             @Override
             public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                String hour = (selectedHour < 10) ? "0" + (selectedHour) : (selectedHour) + "";
-                String minutes = (selectedMinute < 10) ? "0" + (selectedMinute) : (selectedMinute) + "";
-                mTvDeliveryTime.setText(hour + ":" + minutes);
+                if (mTvDeliveryDate.getText().toString().equals(today)){
+                    if (selectedHour >= asapHour && selectedHour < finishHour){
+                        if (selectedHour == asapHour){
+                            if (selectedMinute > asapMinute){
+                                String hour = (selectedHour < 10) ? "0" + (selectedHour) : (selectedHour) + "";
+                                String minutes = (selectedMinute < 10) ? "0" + (selectedMinute) : (selectedMinute) + "";
+                                mTvDeliveryTime.setText(hour + ":" + minutes);
+                            } else{
+                                Toast.makeText(getContext(), "Invalid Time", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            String hour = (selectedHour < 10) ? "0" + (selectedHour) : (selectedHour) + "";
+                            String minutes = (selectedMinute < 10) ? "0" + (selectedMinute) : (selectedMinute) + "";
+                            mTvDeliveryTime.setText(hour + ":" + minutes);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Invalid Time", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (selectedHour >= startHour && selectedHour < finishHour){
+                        String hour = (selectedHour < 10) ? "0" + (selectedHour) : (selectedHour) + "";
+                        String minutes = (selectedMinute < 10) ? "0" + (selectedMinute) : (selectedMinute) + "";
+                        mTvDeliveryTime.setText(hour + ":" + minutes);
+                    } else {
+                        Toast.makeText(getContext(), "Invalid Time", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         }, mHour, mHour, true);
         timePickerDialog.show();
@@ -168,7 +231,7 @@ public class DeliveryDetailFragment extends Fragment {
 
     @Click(R.id.tvDeliveryDate)
     void setmTvDeliveryDate() {
-        final Calendar c = Calendar.getInstance();
+        final Calendar c = (Calendar) mCalendar.clone();
         try {
             String[] tmp = mTvDeliveryDate.getText().toString().split("/");
             fDay = Integer.parseInt(tmp[0]);
@@ -191,7 +254,7 @@ public class DeliveryDetailFragment extends Fragment {
                     }
                 }, fYear, fMonth, fDay);
         datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
-        c.add(Calendar.DATE, 3);
+        c.add(Calendar.DATE, 4);
         datePickerDialog.getDatePicker().setMaxDate(c.getTime().getTime());
         datePickerDialog.show();
     }
@@ -204,8 +267,8 @@ public class DeliveryDetailFragment extends Fragment {
     }
 
     public void updateOrder() {
-        for (UserAddress userAddress: mUserAddresses){
-            if (userAddress.isChecked()){
+        for (UserAddress userAddress : mUserAddresses) {
+            if (userAddress.isChecked()) {
                 mOrder.setUser_address(userAddress.getAddress());
                 mOrder.setLatitude((float) userAddress.getLatitude());
                 mOrder.setLongitude((float) userAddress.getLongitude());

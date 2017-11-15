@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import com.akexorcist.googledirection.util.DirectionConverter;
 import com.example.lungpanda.deliveryfast.R;
 import com.example.lungpanda.deliveryfast.api.ApiClient;
 import com.example.lungpanda.deliveryfast.api.OrderApi;
+import com.example.lungpanda.deliveryfast.model.Order.DiscountResult;
 import com.example.lungpanda.deliveryfast.model.Order.Order;
 import com.example.lungpanda.deliveryfast.model.Order.OrderDetail;
 import com.example.lungpanda.deliveryfast.model.Order.OrderResult;
@@ -84,6 +87,10 @@ import retrofit2.Response;
 
 @EActivity(R.layout.activity_submit_order)
 public class SubmitOrderActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    @ViewById(R.id.rlContainer)
+    RelativeLayout mRlContainer;
+    @ViewById(R.id.progressBarLocation)
+    ProgressBar mProgressBarLocation;
     @ViewById(R.id.flOrderDetail)
     FrameLayout mFlOrderDetail;
     @ViewById(R.id.trAllItem)
@@ -128,6 +135,8 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
     TextView mTvUserAddress;
     @ViewById(R.id.tvDeliveryDate)
     TextView mTvDeliveryDate;
+    @ViewById(R.id.svContent)
+    ScrollView mSvContent;
     private int numberItems = 0, totalAmountDetail = 0, shipFee = 0, discountAmount = 0, totalAmount = 0;
     private float distance = 0;
     private String mNote = "";
@@ -156,10 +165,11 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
     private Store mStore;
     private String id_token;
     private LatLng origin, destination;
-    ;
+    private int i = 0;
 
     @AfterViews
     void init() {
+
         SharedPreferences settings = getSharedPreferences(SignInActivity.NAME_SHAREPREFERENCE, 0);
         id_token = settings.getString(SignInActivity.ID_TOKEN, "");
         getOrder();
@@ -187,11 +197,8 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
 
     @Click(R.id.rlSubmitOrder)
     void setmRlSubmitOrder() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
-            return;
-        }
-        mLastClickTime = SystemClock.elapsedRealtime();
-
+        mRlSubmitOrder.setEnabled(false);
+        mProgressBar.setVisibility(View.VISIBLE);
         mOrder.setNote(mNote);
         mOrder.setStatus("Order Submitted");
         mOrder.setUser(null);
@@ -204,8 +211,16 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onResponse(Call<OrderResult> call, Response<OrderResult> response) {
                 if (response.isSuccessful()) {
-                    HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
-                    Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    if (response.body().isStatus()) {
+                        HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
+                        Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplication(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        mRlSubmitOrder.setEnabled(true);
+                        if (mProgressBar!= null ){
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+                    }
                 } else {
                     HomeActivity_.intent(getApplicationContext()).flags(Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
                     Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
@@ -222,32 +237,24 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void updateAllPriceView() {
-        try {
-            String sDistance = mTvDistance.getText().toString();
-            if (sDistance.contains("km")) {
-                sDistance = sDistance.substring(0, sDistance.length() - 2).trim();
-                distance = Float.parseFloat(sDistance);
-                shipFee = (int) Math.round(distance * 5000);
-                mOrder.setShip_fee(shipFee);
-                mTvShipFee.setText(shipFee + " đ");
-            } else {
-                sDistance = sDistance.substring(0, sDistance.length() - 1).trim();
-                distance = Float.parseFloat(sDistance) / 1000;
-                shipFee = (int) Math.round(distance * 5000);
-                mOrder.setShip_fee(shipFee);
-                mTvShipFee.setText(shipFee + " đ");
-            }
-        } catch (Exception e) {
-        }
+        mProgressBar.setVisibility(View.VISIBLE);
+        mSvContent.setVisibility(View.GONE);
+        mRlSubmitOrder.setEnabled(false);
+
         Date date = new Date(mOrder.getDelivery_date());
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         mTvDeliveryDate.setText(format.format(date));
         numberItems = totalAmountDetail = discountAmount = totalAmount = 0;
         if (destination != null) {
-            mOrder.setUser_address(LocationUtils.getAddressNameFromLocation(getApplicationContext(), destination));
-            mOrder.setLatitude((float) destination.latitude);
-            mOrder.setLongitude((float) destination.longitude);
-            mTvUserAddress.setText(mOrder.getUser_address());
+            if (mOrder.getUser_address() == null) {
+                mOrder.setUser_address(LocationUtils.getAddressNameFromLocation(getApplicationContext(), destination));
+                mOrder.setLatitude((float) destination.latitude);
+                mOrder.setLongitude((float) destination.longitude);
+                mTvUserAddress.setText(mOrder.getUser_address());
+            } else if (!mOrder.getUser_address().equals("")){
+                mTvUserAddress.setText(mOrder.getUser_address());
+                updateLocation();
+            }
         }
         if (mOrder.getUser_phone() != null && mOrder.getUser_name() != null) {
             mTvUserInfor.setText(mOrder.getUser_name() + " - " + mOrder.getUser_phone());
@@ -282,11 +289,15 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.flView, OrderViewFragment_.builder().sOrderDetail(new Gson().toJson(mOrderDetailList)).itemAmount(numberItems).build()).commit();
+        mProgressBar.setVisibility(View.GONE);
+        mSvContent.setVisibility(View.VISIBLE);
+        mRlSubmitOrder.setEnabled(true);
     }
 
     public void updateOrder(List<OrderDetail> orderDetails) {
         mOrderDetailList.clear();
         mOrderDetailList.addAll(orderDetails);
+        updateAllPriceView();
     }
 
     @Click(R.id.btnEnterCode)
@@ -314,15 +325,36 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
             alertDialog.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            if(input.getText().toString().equals("GIAMGIA")){
-                                isDiscount = true;
-                                discountPercent = 30;
-                                mBtnEnterCode.setText("GIAMGIA");
-                                mBtnEnterCode.setEnabled(false);
-                                updateAllPriceView();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Code is not valid", Toast.LENGTH_LONG).show();
-                            }
+//                            if (input.getText().toString().equals("GIAMGIA")) {
+//                                isDiscount = true;
+//                                discountPercent = 30;
+//                                mBtnEnterCode.setText("GIAMGIA");
+//                                mBtnEnterCode.setEnabled(false);
+//                                updateAllPriceView();
+//                            } else {
+//                                Toast.makeText(getApplicationContext(), "Code is not valid", Toast.LENGTH_LONG).show();
+//                            }
+                            OrderApi orderApi = ApiClient.retrofit().create(OrderApi.class);
+                            Call<DiscountResult> discountResultCall = orderApi.getDiscount(mOrder.getStore().getId(),input.getText().toString(),"application/json","Bearer " + id_token);
+                            discountResultCall.enqueue(new Callback<DiscountResult>() {
+                                @Override
+                                public void onResponse(Call<DiscountResult> call, Response<DiscountResult> response) {
+                                    if (response.isSuccessful()){
+                                        isDiscount = response.body().isStatus();
+                                        if (response.body().isStatus()){
+                                            discountPercent = response.body().getDiscountData().getDiscountPercent();
+                                            mBtnEnterCode.setText(input.getText().toString());
+                                        }
+                                        updateAllPriceView();
+                                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<DiscountResult> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), "Server is not working", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
             alertDialog.setNegativeButton("NO",
@@ -360,6 +392,7 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else {
+            mProgressBar.setVisibility(View.VISIBLE);
             mOrder.setOrderDetails(mOrderDetailList);
             Log.i("", "onBackPressed: " + new Gson().toJson(mOrder));
             OrderApi api = ApiClient.retrofit().create(OrderApi.class);
@@ -416,12 +449,14 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.addToBackStack("DeliveryDetail");
-        mOrder.setStore(null);
+//        mOrder.setStore(null);
         mFragmentTransaction.replace(R.id.flOrderDetail, DeliveryDetailFragment_.builder().sOrder(new Gson().toJson(mOrder)).build()).commit();
     }
 
     public void getOrder() {
         mProgressBar.setVisibility(View.VISIBLE);
+        mSvContent.setVisibility(View.GONE);
+        mRlContainer.setEnabled(false);
         if (sOrderId != null && !sOrderId.equals("")) {
             OrderApi orderApi = ApiClient.retrofit().create(OrderApi.class);
             Call<OrderResult> result = orderApi.getOrder(sOrderId, "application/json", "Bearer " + id_token);
@@ -459,23 +494,44 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
                             }
                             mTvUserInfor.setText(mOrder.getUser_name() + " - " + mOrder.getUser_phone());
                             origin = new LatLng(mStore.getLatitude(), mStore.getLongitude());
+
+                            //Gắn date
                             Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(new Date());
-                            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-//                            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm - dd/MM");
                             mOrder.setOrder_date(calendar.getTime().toString());
+                            int today = calendar.get(Calendar.DATE);
+                            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                             int round = calendar.get(Calendar.MINUTE) % 15;
                             calendar.add(Calendar.MINUTE, round < 8 ? -round : (15 - round));
                             calendar.add(Calendar.MINUTE, 45);
                             calendar.set(Calendar.SECOND, 0);
+                            int startHour, finishHour;
+                            startHour = Integer.parseInt(mOrder.getStore().getOpening_time().split(":")[0]);
+                            finishHour = Integer.parseInt(mOrder.getStore().getClosing_time().split(":")[0]);
+                            if (calendar.get(calendar.HOUR_OF_DAY) >= startHour && calendar.get(calendar.HOUR_OF_DAY) < finishHour) {
+                                mTvDeliveryDate.setText(format.format(calendar.getTime()));
+                                mOrder.setDelivery_date(calendar.getTime().toString());
+                            } else {
+                                if (today == calendar.get(Calendar.DATE)) {
+                                    calendar.add(Calendar.DATE, 1);
+                                }
+                                calendar.set(Calendar.HOUR_OF_DAY, startHour);
+                                calendar.set(Calendar.MINUTE, 0);
+                                mTvDeliveryDate.setText(format.format(calendar.getTime()));
+                                mOrder.setDelivery_date(calendar.getTime().toString());
+                            }
 //                            String deliDate = calendar.getTime().getHours() + ":" + calendar.getTime().getMinutes() + " - " + calendar.getTime().getDate() + "/" + (calendar.getTime().getMonth() + 1);
-                            mTvDeliveryDate.setText(format.format(calendar.getTime()));
-                            mOrder.setDelivery_date(calendar.getTime().toString());
-                            createPolyline();
+                            if (destination != null){
+                                mOrder.setLatitude((float) destination.latitude);
+                                mOrder.setLongitude((float) destination.longitude);
+                                mOrder.setUser_address(LocationUtils.getAddressNameFromLocation(getApplicationContext(), destination));
+                            }
+                            updateLocation();
                             updateOrder(mOrder.getOrderDetails());
                             if (mProgressBar != null) {
                                 mProgressBar.setVisibility(View.GONE);
                             }
+                            mSvContent.setVisibility(View.VISIBLE);
+                            mRlContainer.setEnabled(true);
                         } else {
                             OrderActivity_.intent(getApplicationContext()).store_id(sStoreId).flags(Intent.FLAG_ACTIVITY_CLEAR_TOP).start();
                             Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
@@ -610,6 +666,8 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void createPolyline() {
+        Log.i("UPDATEVIEW111", "setmRlSubmitOrder: " + i++);
+        mProgressBarLocation.setVisibility(View.VISIBLE);
         if (origin != null) {
             mMap.addMarker(new MarkerOptions()
                     .position(origin)
@@ -633,7 +691,30 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
                             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
                             mTvDis.setText(direction.getRouteList().get(0).getLegList().get(0).getDistance().getText());
                             mTvDistance.setText(mTvDis.getText().toString());
-                            updateAllPriceView();
+                            try {
+                                String sDistance = mTvDistance.getText().toString();
+                                if (sDistance.contains("km")) {
+                                    sDistance = sDistance.substring(0, sDistance.length() - 2).trim();
+                                    distance = Float.parseFloat(sDistance);
+                                    shipFee = (int) Math.round(distance * 5000);
+                                    mOrder.setShip_fee(shipFee);
+                                    mTvShipFee.setText(shipFee + " đ");
+                                } else {
+                                    sDistance = sDistance.substring(0, sDistance.length() - 1).trim();
+                                    distance = Float.parseFloat(sDistance) / 1000;
+                                    shipFee = (int) Math.round(distance * 5000);
+                                    mOrder.setShip_fee(shipFee);
+                                    mTvShipFee.setText(shipFee + " đ");
+                                }
+                            } catch (Exception e) {
+                            }
+                            totalAmount = totalAmountDetail + shipFee - discountAmount;
+                            mTvTotalAmount.setText(totalAmount + " đ");
+                            mTvTotalAmount2.setText(totalAmount + " đ");
+                            mOrder.setTotal_amount(totalAmount);
+                            if (mProgressBarLocation != null){
+                                mProgressBarLocation.setVisibility(View.GONE);
+                            }
                         }
 
                         @Override
@@ -647,7 +728,7 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void updateLocation() {
-        destination =new LatLng(mOrder.getLatitude(), mOrder.getLongitude());
+        destination = new LatLng(mOrder.getLatitude(), mOrder.getLongitude());
         if (mMarker != null) {
             mMarker.remove();
         }
@@ -655,7 +736,6 @@ public class SubmitOrderActivity extends AppCompatActivity implements OnMapReady
                 .position(destination)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.detinationpin)));
         createPolyline();
-        updateAllPriceView();
     }
 
 }

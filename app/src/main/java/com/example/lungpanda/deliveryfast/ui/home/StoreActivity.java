@@ -110,14 +110,14 @@ public class StoreActivity extends Fragment {
                         DialogFragment dialogFragment = new DialogFragment();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Server is not working", Toast.LENGTH_LONG).show();
+                    Toast.makeText((getActivity()).getBaseContext(), "Server is not working", Toast.LENGTH_LONG).show();
                     getActivity().onBackPressed();
                 }
             }
 
             @Override
             public void onFailure(Call<StoreListResult> call, Throwable t) {
-                Toast.makeText(getContext(), "Server is not working", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Fail", Toast.LENGTH_LONG).show();
                 getActivity().onBackPressed();
             }
         });

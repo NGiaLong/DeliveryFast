@@ -57,12 +57,14 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="History" />
+                android:text="History"
+                android:id="@+id/btnHistory"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Address" />
+                android:text="Address"
+                android:id="@+id/btnAddress"/>
 
             <Button
                 android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.SystemClock;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -172,6 +174,7 @@ public class OrderActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else if (mainOrderDetailList != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
             mOrder.setOrderDetails(mainOrderDetailList);
             OrderApi api = ApiClient.retrofit().create(OrderApi.class);
             Call<OrderResult> resultCall = api.saveOrder(mOrder.getId(), "application/json", "Bearer " + id_token, mOrder);
@@ -277,6 +280,7 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
+        mProgressBar.setVisibility(View.VISIBLE);
         if (mainOrderDetailList != null) {
             mOrder.setOrderDetails(mainOrderDetailList);
             OrderApi api = ApiClient.retrofit().create(OrderApi.class);
@@ -291,6 +295,7 @@ public class OrderActivity extends AppCompatActivity {
                         Toast.makeText(getApplication(), "Server is not working", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onFailure(Call<OrderResult> call, Throwable t) {
                     onBackPressed();
@@ -352,7 +357,9 @@ public class OrderActivity extends AppCompatActivity {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.addToBackStack("a");
-            mFragmentTransaction.add(R.id.flOrderDetail, OrderDetailFragment_.builder().sStoreName(mTvStoreName.getText().toString()).sOrderDetail(new Gson().toJson(mainOrderDetailList)).build()).commit();
+            Fragment fragment = OrderDetailFragment_.builder().sStoreName(mTvStoreName.getText().toString()).sOrderDetail(new Gson().toJson(mainOrderDetailList)).build();
+            fragment.setEnterTransition(new Slide(Gravity.BOTTOM));
+            mFragmentTransaction.replace(R.id.flOrderDetail, fragment).commit();
         }
     }
 

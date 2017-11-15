@@ -145,6 +145,10 @@ public class HomeActivity extends FragmentActivity {
             Log.e("TAG", "Unable to change value of shift mode");
         }
     }
+
+    public void setBottomNavigation(int fragmentId){
+            bottomNavigation.setSelectedItemId(fragmentId);
+    }
 }
 
 

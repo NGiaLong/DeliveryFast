@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:id="@+id/rlContainer"
     android:orientation="vertical"
     android:scrollbars="vertical"
     tools:context="com.example.lungpanda.deliveryfast.ui.order.SubmitOrderActivity">
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:translationZ="20dp"
-        android:id="@+id/progressBar"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:translationZ="20dp"
+            android:id="@+id/progressBar"/>
+
     <FrameLayout
         android:id="@+id/flOrderDetail"
         android:layout_width="match_parent"
@@ -57,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/llToolBar"
+        android:id="@+id/svContent"
         android:paddingBottom="50dp"
         android:scrollbars="none">
 
@@ -72,13 +76,23 @@
                 android:layout_below="@+id/llToolBar"
                 android:background="@color/tvWhite"
                 android:orientation="vertical">
-
-                <fragment
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_height="200dp"
-                    android:id="@+id/flLocation"
-                    android:background="@color/background"/>
+                    android:layout_height="200dp">
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:translationZ="30dp"
+                        android:id="@+id/progressBarLocation"/>
+                    <fragment
+                        android:layout_width="match_parent"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_height="200dp"
+                        android:id="@+id/flLocation"
+                        android:background="@color/background"/>
+                </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -204,7 +218,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/tvWhite"
-                    android:gravity="center_vertical"
                     android:padding="10dp">
 
                     <TableRow
@@ -221,7 +234,6 @@
 
                         <TextView
                             android:id="@+id/tvTotalAmountDetail"
-                            android:layout_column="2"
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="0 đ"
@@ -262,6 +274,7 @@
                         <Button
                             android:id="@+id/btnEnterCode"
                             android:text="Enter code"
+                            android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:textAllCaps="false"
                             android:background="@color/background"
@@ -288,7 +301,6 @@
                         <TextView
                             android:id="@+id/tvTotalAmount"
                             android:layout_width="match_parent"
-                            android:layout_column="2"
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="0 đ"
@@ -306,6 +318,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:paddingRight="10dp">
 
                     <TextView

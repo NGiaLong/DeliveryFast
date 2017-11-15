@@ -11,14 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static Retrofit retrofit = null;
-    private static String mBaseUrl = "http://21b9ae99.ngrok.io";
+    private static String mBaseUrl = "https://delivery-fast.herokuapp.com";
 
 
     public static Retrofit retrofit () {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(mBaseUrl)

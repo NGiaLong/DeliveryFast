@@ -108,7 +108,7 @@
             <EditText
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:textSize="10dp"
                 android:textStyle="bold"
                 android:background="@color/tvWhite"
@@ -130,7 +130,7 @@
                 android:textStyle="bold"
                 android:hint="Phone number"
                 android:background="@color/tvWhite"
-                android:text=""
+                android:maxLength="13"
                 android:id="@+id/etReceiverPhone"
                 android:maxLines="1"/>
             <ImageView

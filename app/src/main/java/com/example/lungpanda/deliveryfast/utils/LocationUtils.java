@@ -47,7 +47,7 @@ public class LocationUtils {
             if (location != null || !location.equals("")) {
                 Geocoder geocoder = new Geocoder(context);
                 try {
-                    addressList = geocoder.getFromLocationName(location, 1);
+                    addressList = geocoder.getFromLocationName(location+ ", Da Nang, Viet Nam", 1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -67,7 +67,7 @@ public class LocationUtils {
             if (location != null || !location.equals("")) {
                 Geocoder geocoder = new Geocoder(context);
                 try {
-                    addressList = geocoder.getFromLocationName(location, 10);
+                    addressList = geocoder.getFromLocationName(location + ", Da Nang, Viet Nam", 10);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
